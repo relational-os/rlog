@@ -13,69 +13,51 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "ERC721",
+      name: "BaseRelayRecipient",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC721__factory>;
+    ): Promise<Contracts.BaseRelayRecipient__factory>;
     getContractFactory(
-      name: "IERC721Metadata",
+      name: "IRelayRecipient",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Metadata__factory>;
+    ): Promise<Contracts.IRelayRecipient__factory>;
     getContractFactory(
-      name: "IERC721",
+      name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721__factory>;
+    ): Promise<Contracts.Ownable__factory>;
     getContractFactory(
-      name: "IERC721Receiver",
+      name: "PublicChannel",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Receiver__factory>;
+    ): Promise<Contracts.PublicChannel__factory>;
     getContractFactory(
-      name: "ERC165",
+      name: "Rlog",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC165__factory>;
-    getContractFactory(
-      name: "IERC165",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC165__factory>;
-    getContractFactory(
-      name: "ExampleNFT",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ExampleNFT__factory>;
+    ): Promise<Contracts.Rlog__factory>;
 
     getContractAt(
-      name: "ERC721",
+      name: "BaseRelayRecipient",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ERC721>;
+    ): Promise<Contracts.BaseRelayRecipient>;
     getContractAt(
-      name: "IERC721Metadata",
+      name: "IRelayRecipient",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Metadata>;
+    ): Promise<Contracts.IRelayRecipient>;
     getContractAt(
-      name: "IERC721",
+      name: "Ownable",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC721>;
+    ): Promise<Contracts.Ownable>;
     getContractAt(
-      name: "IERC721Receiver",
+      name: "PublicChannel",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Receiver>;
+    ): Promise<Contracts.PublicChannel>;
     getContractAt(
-      name: "ERC165",
+      name: "Rlog",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ERC165>;
-    getContractAt(
-      name: "IERC165",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC165>;
-    getContractAt(
-      name: "ExampleNFT",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ExampleNFT>;
+    ): Promise<Contracts.Rlog>;
 
     // default types
     getContractFactory(

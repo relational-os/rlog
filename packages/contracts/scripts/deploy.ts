@@ -2,7 +2,7 @@ import { ContractFactory } from "ethers";
 import fs from "fs/promises";
 import hre, { ethers, network } from "hardhat";
 
-import { ExampleNFT__factory } from "../typechain-types";
+import { Rlog__factory } from "../typechain-types";
 
 const exists = (path: string) =>
   fs
@@ -65,7 +65,7 @@ const deployContract = async (factory: ContractFactory) => {
 
 async function start() {
   const [deployer] = await ethers.getSigners();
-  await deployContract(new ExampleNFT__factory(deployer));
+  await deployContract(new Rlog__factory(deployer));
 
   console.log("Done!");
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@chirp-city/app",
+  "name": "@rlog/app",
   "private": true,
   "scripts": {
     "dev": "next dev & graphql-codegen --watch",
@@ -9,15 +9,16 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
-    "@web3-dapp-scaffold/contracts": "workspace:*",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.0",
+    "@rlog/contracts": "workspace:*",
     "classnames": "^2.3.1",
     "graphql": "^16.2.0",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-ens-name": "^0.2.5",
     "urql": "^2.0.6",
     "web3modal": "^1.9.4",
     "zustand": "^3.6.7"

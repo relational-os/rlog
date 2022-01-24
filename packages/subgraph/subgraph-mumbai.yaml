@@ -3,22 +3,22 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: ExampleNFT
-    network: mumabi
+    name: Rlog
+    network: mumbai 
     source:
-      abi: ExampleNFT
-      address: "0x457cdbE2a4018e4482352d70C7CF5fE42C88B326"
-      startBlock: 23894082
+      abi: Rlog
+      address: "0x028ceA2DAFe1b5D7D23fa25f5c83Ca9FF152D122"
+      startBlock: 24227799
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Transfer
+        - Rlog
       abis:
-        - name: ExampleNFT
-          file: ./abis/ExampleNFT.json
+        - name: Rlog
+          file: ./abis/Rlog.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
+        - event: PublicMessage(indexed address,string)
+          handler: handlePublicMessage
       file: ./src/mapping.ts

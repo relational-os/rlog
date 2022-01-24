@@ -27,9 +27,9 @@ importers:
       '@graphql-codegen/typescript': ^2.4.2
       '@graphql-codegen/typescript-operations': ^2.2.2
       '@graphql-codegen/typescript-urql': ^3.4.2
+      '@rlog/contracts': workspace:*
       '@types/node': 17.0.0
       '@types/react': 17.0.37
-      '@web3-dapp-scaffold/contracts': workspace:*
       autoprefixer: ^10.4.0
       classnames: ^2.3.1
       eslint: 8.4.1
@@ -39,6 +39,7 @@ importers:
       postcss: ^8.4.5
       react: 17.0.2
       react-dom: 17.0.2
+      react-ens-name: ^0.2.5
       tailwindcss: ^3.0.5
       typescript: 4.5.4
       urql: ^2.0.6
@@ -48,12 +49,13 @@ importers:
       '@ethersproject/address': 5.5.0
       '@ethersproject/contracts': 5.5.0
       '@ethersproject/providers': 5.5.2
-      '@web3-dapp-scaffold/contracts': link:../contracts
+      '@rlog/contracts': link:../contracts
       classnames: 2.3.1
       graphql: 16.2.0
       next: 12.0.7_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-ens-name: 0.2.5_react@17.0.2
       urql: 2.0.6_graphql@16.2.0+react@17.0.2
       web3modal: 1.9.5
       zustand: 3.6.9_react@17.0.2
@@ -972,7 +974,6 @@ packages:
       '@ethersproject/strings': 5.5.0
       '@ethersproject/transactions': 5.5.0
       '@ethersproject/wordlists': 5.5.0
-    dev: true
 
   /@ethersproject/json-wallets/5.5.0:
     resolution: {integrity: sha512-9lA21XQnCdcS72xlBn1jfQdj2A1VUxZzOzi9UkNdnokNKke/9Ya2xA9aIK1SC3PQyBDLt4C+dfps7ULpkvKikQ==}
@@ -990,7 +991,6 @@ packages:
       '@ethersproject/transactions': 5.5.0
       aes-js: 3.0.0
       scrypt-js: 3.0.1
-    dev: true
 
   /@ethersproject/keccak256/5.5.0:
     resolution: {integrity: sha512-5VoFCTjo2rYbBe1l2f4mccaRFN/4VQEYFwwn04aJV2h7qf4ZvI2wFxUE1XOX+snbwCLRzIeikOqtAoPwMza9kg==}
@@ -1011,7 +1011,6 @@ packages:
     dependencies:
       '@ethersproject/bytes': 5.5.0
       '@ethersproject/sha2': 5.5.0
-    dev: true
 
   /@ethersproject/properties/5.5.0:
     resolution: {integrity: sha512-l3zRQg3JkD8EL3CPjNK5g7kMx4qSwiR60/uk5IVjd3oq1MZR5qUg40CNOoEJoX5wc3DyY5bt9EbMk86C7x0DNA==}
@@ -1082,7 +1081,6 @@ packages:
       '@ethersproject/logger': 5.5.0
       '@ethersproject/sha2': 5.5.0
       '@ethersproject/strings': 5.5.0
-    dev: true
 
   /@ethersproject/strings/5.5.0:
     resolution: {integrity: sha512-9fy3TtF5LrX/wTrBaT8FGE6TDJyVjOvXynXJz5MT5azq+E6D92zuKNx7i29sWW2FjVOaWjAsiZ1ZWznuduTIIQ==}
@@ -1110,7 +1108,6 @@ packages:
       '@ethersproject/bignumber': 5.5.0
       '@ethersproject/constants': 5.5.0
       '@ethersproject/logger': 5.5.0
-    dev: true
 
   /@ethersproject/wallet/5.5.0:
     resolution: {integrity: sha512-Mlu13hIctSYaZmUOo7r2PhNSd8eaMPVXe1wxrz4w4FCE4tDYBywDH+bAR1Xz2ADyXGwqYMwstzTrtUVIsKDO0Q==}
@@ -1130,7 +1127,6 @@ packages:
       '@ethersproject/signing-key': 5.5.0
       '@ethersproject/transactions': 5.5.0
       '@ethersproject/wordlists': 5.5.0
-    dev: true
 
   /@ethersproject/web/5.5.1:
     resolution: {integrity: sha512-olvLvc1CB12sREc1ROPSHTdFCdvMh0J5GSJYiQg2D0hdD4QmJDy8QYDb1CvoqD/bF1c++aeKv2sR5uduuG9dQg==}
@@ -1149,7 +1145,6 @@ packages:
       '@ethersproject/logger': 5.5.0
       '@ethersproject/properties': 5.5.0
       '@ethersproject/strings': 5.5.0
-    dev: true
 
   /@graphprotocol/graph-cli/0.25.1:
     resolution: {integrity: sha512-FPdxWDITWeI0u3VgfbaeaaWGDuaVY6QsAAinZSyPuLVBQSuMYdtzfhtRPRw5T2IL5Eb1j29Ir8Ty2vgY2lJ0rw==}
@@ -2507,7 +2502,6 @@ packages:
 
   /aes-js/3.0.0:
     resolution: {integrity: sha1-4h3xCtbCBTKVvLuNq0Cwnb6ofk0=}
-    dev: true
 
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -4787,7 +4781,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: true
 
   /ethjs-util/0.1.6:
     resolution: {integrity: sha512-CUnVOQq7gSpDHZVVrQW8ExxUETWrnrvXYvYz55wOU8Uj4VCgw56XC2B/fVqQN+f7gmrnRHSLVnFAwsCuNwji8w==}
@@ -8267,6 +8260,22 @@ packages:
       scheduler: 0.20.2
     dev: false
 
+  /react-ens-name/0.2.5_react@17.0.2:
+    resolution: {integrity: sha512-iDIpAarm7VoSIrLctDzeWlEhUEIGzePqp3NQneHNQKHiJzvXnxTS5ow1BQr1ii8ldRxy1JN31vlk1TjLrTOkdg==}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      ethers: 5.5.3
+      react: 17.0.2
+      zustand: 3.6.9_react@17.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -8675,7 +8684,6 @@ packages:
 
   /scrypt-js/3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
-    dev: true
 
   /scuid/1.1.0:
     resolution: {integrity: sha512-MuCAyrGZcTLfQoH2XoBlQ8C6bzwN88XT/0slOGz0pn8+gIP85BOAfYa44ZXQUTOwRwPU0QvgU+V+OSajl/59Xg==}

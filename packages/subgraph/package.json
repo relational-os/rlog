@@ -1,11 +1,11 @@
 {
-  "name": "@web3-dapp-scaffold/subgraph",
-  "private":true,
+  "name": "@rlog/subgraph",
+  "private": true,
   "scripts": {
     "codegen": "graph codegen subgraph*.yaml",
     "build": "graph build subgraph*.yaml",
-    "deploy:matic": "graph deploy --node https://api.thegraph.com/deploy/ holic/example-nft subgraph-matic.yaml",
-    "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ holic/example-nft-testnet subgraph-mumbai.yaml"
+    "deploy:matic": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/rlog subgraph-matic.yaml",
+    "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/rlog subgraph-mumbai.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.25.1",
