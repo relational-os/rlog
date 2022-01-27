@@ -1,5 +1,5 @@
-import deploys from "@web3-dapp-scaffold/contracts/deploys.json";
-import { Rlog__factory } from "@web3-dapp-scaffold/contracts/typechain-types";
+import deploys from "@rlog/contracts/deploys.json";
+import { Rlog__factory } from "@rlog/contracts/typechain-types";
 
 import { polygonProvider } from "./providers";
 
