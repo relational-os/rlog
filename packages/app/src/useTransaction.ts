@@ -1,13 +1,16 @@
 import type { ContractTransaction } from "@ethersproject/contracts";
 import { Web3Provider } from "@ethersproject/providers";
-import createDebug from "debug";
+// import createDebug from "debug";
 import { useCallback } from "react";
 import createStore from "zustand";
 
 import { chainConfig } from "./chainConfig";
 import { useWallet } from "./useWallet";
 
-const debug = createDebug("app:useTransaction");
+// const debug = createDebug("app:useTransaction");
+const debug = function(message: string, extra: any = "") {
+  console.log(message, extra);
+}
 
 const [chainId, chain] = chainConfig(
   process.env.NODE_ENV === "production" ? "matic" : "mumbai"
