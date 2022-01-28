@@ -35,7 +35,7 @@ gql`
 `;
 
 const HomePage: NextPage = () => {
-  const { provider, connect, account } = useWallet();
+  const { provider, connect, account, network } = useWallet();
 
   const [text, setText] = useState("");
   const [queryType, setQueryType] = useState<"user" | "all">("all");
@@ -65,7 +65,14 @@ const HomePage: NextPage = () => {
 
       {account && provider ? (
         <>
-          <div style={{ marginBottom: "4rem" }}>YOU ARE: {account}</div>
+          <div style={{ marginBottom: "4rem" }}>
+            YOU ARE: {account}
+            {network && network.name !== "maticmum" && (
+              <div className="p-2 bg-red-300">
+                make sure you are on Matic Mumbai
+              </div>
+            )}
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
