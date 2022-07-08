@@ -15,3 +15,4 @@ out/console2.sol/**/*.abi.json
 # Why do these globs make this so hard?
 
 .env.*
+.env

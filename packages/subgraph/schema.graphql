@@ -1,5 +1,61 @@
-type Token @entity {
+# this will quickly devolve into insanity, or autogen code.
+# its actually a cambrian explosion, 2^n in complexity probably
+
+type Page @entity {
   id: ID!
-  owner: Bytes!
-  tokenURI: String!
+  author: Wallet!
+  created: BigInt!
+  modified: BigInt!
+  data: String!
+
+  tags: [Tag!]!
+  logs: [Log!]!
+  comments: [Comment!]!
+  pages: [Page!]!
+}
+
+type Log @entity {
+  id: ID!
+  author: Wallet!
+  created: BigInt!
+  modified: BigInt!
+  data: String!
+
+  tags: [Tag!]!
+  logs: [Log!]!
+  pages: [Page!]!
+  comments: [Comment!]!
+}
+
+type Comment @entity {
+  id: ID!
+  author: Wallet!
+  created: BigInt!
+  modified: BigInt!
+  data: String!
+
+  comments: [Comment!]!
+
+  log: Log
+  comment: Comment
+  page: Page
+}
+
+type Tag @entity {
+  id: ID!
+  author: Wallet!
+  name: String!
+  created: BigInt!
+
+  pages: [Page!]!
+  logs: [Log!]!
+  comments: [Comment!]!
+}
+
+type Wallet @entity {
+  id: ID! # address
+  pages: [Page!]! @derivedFrom(field: "author")
+  tags: [Tag!]! @derivedFrom(field: "author")
+  logs: [Log!]! @derivedFrom(field: "author")
+  comments: [Comment!]! @derivedFrom(field: "author")
 }

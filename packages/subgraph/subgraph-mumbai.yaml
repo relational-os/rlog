@@ -1,0 +1,105 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Comment
+    network: mumbai
+    source:
+      abi: Comment
+      address: "0x52318aea70b497c8d3cc83f985991370cc9e297b"
+      startBlock: 26464110
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - CommentCreated
+        - CommentEdited
+        - CommentRemoved
+      abis:
+        - name: Comment
+          file: ../contracts/out/Comment.sol/Comment.abi.json
+      eventHandlers:
+        - event: CommentCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]),(address,uint256))
+          handler: handleCommentCreated
+        - event: CommentEdited(uint256,string)
+          handler: handleCommentEdited
+        - event: CommentRemoved(uint256)
+          handler: handleCommentRemoved
+      file: ./src/commentMapping.ts
+  - kind: ethereum
+    name: Log
+    network: mumbai
+    source:
+      abi: Log
+      address: "0x7c376918cacf56576db22921b780f2c220b28c52"
+      startBlock: 26464110
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - LogCreated
+        - LogEdited
+        - LogRemoved
+      abis:
+        - name: Log
+          file: ../contracts/out/Log.sol/Log.abi.json
+      eventHandlers:
+        - event: LogCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]))
+          handler: handleLogCreated
+        - event: LogEdited(uint256,string)
+          handler: handleLogEdited
+        - event: LogRemoved(uint256)
+          handler: handleLogRemoved
+      file: ./src/logMapping.ts
+  - kind: ethereum
+    name: Page
+    network: mumbai
+    source:
+      abi: Page
+      address: "0x9afd94b0d13b3f360eacd44ea856b1da669cd15e"
+      startBlock: 26464110
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PageCreated
+        - RelationshipAdded
+        - PageEdited
+        - PageRemoved
+      abis:
+        - name: Page
+          file: ../contracts/out/Page.sol/Page.abi.json
+      eventHandlers:
+        - event: PageCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]))
+          handler: handlePageCreated
+        - event: RelationshipAdded(uint256,uint256)
+          handler: handleRelationshipAdded
+        - event: PageEdited(uint256,string)
+          handler: handlePageEdited
+        - event: PageRemoved(uint256)
+          handler: handlePageRemoved
+      file: ./src/pageMapping.ts
+  - kind: ethereum
+    name: Tag
+    network: mumbai
+    source:
+      abi: Tag
+      address: "0x2ac2436b1fa3f9ff3d058fa66bbe695d371617f7"
+      startBlock: 26464110
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - TagCreated
+      abis:
+        - name: Tag
+          file: ../contracts/out/Tag.sol/Tag.abi.json
+      eventHandlers:
+        - event: TagCreated(uint256,(uint256,address,uint256,string))
+          handler: handleTagCreated
+      file: ./src/tagMapping.ts
