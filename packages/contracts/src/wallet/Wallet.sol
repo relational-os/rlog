@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
-import "forge-std/console.sol";
+// import "forge-std/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 // TODO might be worth moving to: https://github.com/divergencetech/ethier/blob/main/contracts/crypto/SignatureChecker.sol

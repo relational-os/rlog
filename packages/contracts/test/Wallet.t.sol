@@ -64,8 +64,14 @@ contract WalletTest is Test {
         vm.prank(CJ);
         wallet.addSigner(signer);
 
-        // console.log(address(wallet));
-        // console.log(address(nftContract));
+        console.log(address(wallet));
+        console.log(address(nftContract));
+    }
+
+    function testGetErrors() public {
+        console.logBytes4(Wallet.SignerNotAllowed.selector);
+        console.logBytes4(Wallet.DuplicateRequest.selector);
+        console.logBytes4(Wallet.InvalidSignature.selector);
     }
 
     function testAddSigner() public {

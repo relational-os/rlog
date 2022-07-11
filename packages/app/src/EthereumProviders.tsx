@@ -8,7 +8,7 @@ import { publicProvider } from "wagmi/providers/public";
 export const targetChainId = parseInt(process.env.CHAIN_ID!) || 5;
 
 export const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.goerli],
+  [chain.polygonMumbai],
   [
     alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
     publicProvider(),
@@ -16,7 +16,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "Example NFT",
+  appName: "CJ's Site",
   chains,
 });
 
