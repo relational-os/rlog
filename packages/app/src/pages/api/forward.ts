@@ -23,41 +23,44 @@ const api: NextApiHandler = async (req, res) => {
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type");
-    if (req.method == "POST") {
-      const {
-        data,
-        signature,
-      }: {
-        data: any;
-        signature: string;
-      } = req.body;
+  if (req.method == "POST") {
+    const {
+      data,
+      signature,
+    }: {
+      data: any;
+      signature: string;
+    } = req.body;
+
+    if (data && signature) {
+      const privateKey =
+        PRIVATE_KEYS[
+          parseInt(data.message.from.slice(-2), 16) % PRIVATE_KEYS.length
+        ];
+
+      const wallet = new Wallet(
+        privateKey,
+        new JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT)
+      );
+
+      const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
+      const nonce = await wallet.getTransactionCount();
+      const tx = await forwarder.execute(data.message, signature, {
+        nonce,
+        gasPrice: parseUnits("10", "gwei"),
+      });
+      return res.json(tx);
+    } else {
+      res.send("");
+    }
+  } else {
+    res.send("");
+  }
 
   // const { data, signature } = await generateSignature();
 
   console.log("ran");
   //   console.log("data", data, "sig", signature);
-
-  if (data && signature) {
-    const privateKey =
-      PRIVATE_KEYS[
-        parseInt(data.message.from.slice(-2), 16) % PRIVATE_KEYS.length
-      ];
-
-    const wallet = new Wallet(
-      privateKey,
-      new JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT)
-    );
-
-    const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
-    const nonce = await wallet.getTransactionCount();
-    const tx = await forwarder.execute(data.message, signature, {
-      nonce,
-      gasPrice: parseUnits("10", "gwei"),
-    });
-    return res.json(tx);
-  } else {
-    res.send("");
-  }
 };
 
 type ForwardRequestStruct = {
