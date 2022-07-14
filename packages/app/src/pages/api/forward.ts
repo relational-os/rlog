@@ -23,16 +23,16 @@ const api: NextApiHandler = async (req, res) => {
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type");
-  //   if (req.method == "POST") {
-  //     const {
-  //       data,
-  //       signature,
-  //     }: {
-  //       data: any;
-  //       signature: string;
-  //     } = req.body;
+    if (req.method == "POST") {
+      const {
+        data,
+        signature,
+      }: {
+        data: any;
+        signature: string;
+      } = req.body;
 
-  const { data, signature } = await generateSignature();
+  // const { data, signature } = await generateSignature();
 
   console.log("ran");
   //   console.log("data", data, "sig", signature);

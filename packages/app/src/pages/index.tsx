@@ -4,8 +4,8 @@ import Head from "next/head";
 import { useWallet } from "../useWallet";
 import Select from "react-select";
 import { useEffect, useState } from "react";
-import { abi as tagABI } from "@site-demo/contracts/out/Tag.sol/Tag.json";
-import { abi as pageABI } from "@site-demo/contracts/out/Page.sol/Page.json";
+import tagABI from "@site-demo/contracts/out/Tag.sol/Tag.abi.json";
+import pageABI from "@site-demo/contracts/out/Page.sol/Page.abi.json";
 import contracts from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
