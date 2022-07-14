@@ -16,6 +16,7 @@ export function handleLogCreated(event: LogCreated): void {
   log.created = event.params.data.createdTimestamp;
   log.modified = event.params.data.modifiedTimestamp;
   log.data = event.params.data.data;
+  // log.txHash = event.block.hash;
 
   // go through relationships and add them (there can only be one)
   for (let i = 0; i < event.params.data.relationships.length; i++) {

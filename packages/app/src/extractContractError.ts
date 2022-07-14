@@ -1,51 +1,59 @@
-import { ExampleNFT__factory } from "@web3-scaffold/contracts/types";
+import {
+  Comment__factory,
+  Log__factory,
+  Page__factory,
+  Tag__factory,
+} from "@site-demo/contracts/types";
 
-const contractInterface = ExampleNFT__factory.createInterface();
+const commentInterface = Comment__factory.createInterface();
+const logInterfsce = Log__factory.createInterface();
+const pageInterface = Page__factory.createInterface();
+const tagInterface = Tag__factory.createInterface();
 
 // for (const [error, errorFragment] of Object.entries(contractInterface.errors)) {
 //   console.log(contractInterface.getSighash(errorFragment), errorFragment.name);
 // }
 
-export const extractContractError = (error: any): string => {
-  console.dir(error);
+// export const extractContractError = (error: any): string => {
+//   console.dir(error);
 
-  // Attempt to extract Solidity error
-  const errorData = error.error?.data?.originalError?.data;
-  if (typeof errorData === "string") {
-    console.log("found error data in original error, write call?", errorData);
-    for (const [error, errorFragment] of Object.entries(
-      contractInterface.errors
-    )) {
-      if (errorData.startsWith(contractInterface.getSighash(errorFragment))) {
-        // const args = contractInterface.decodeErrorResult(errorFragment, errorData)
-        return errorFragment.name;
-      }
-    }
-  }
+//   // Attempt to extract Solidity error
+//   const errorData = error.error?.data?.originalError?.data;
+//   if (typeof errorData === "string") {
+//     console.log("found error data in original error, write call?", errorData);
+//     for (const [error, errorFragment] of Object.entries(
+//       contractInterface.errors
+//     )) {
+//       if (errorData.startsWith(contractInterface.getSighash(errorFragment))) {
+//         // const args = contractInterface.decodeErrorResult(errorFragment, errorData)
+//         return errorFragment.name;
+//       }
+//     }
+//   }
 
-  // Read calls will revert differently
-  try {
-    const response = JSON.parse(error.error.response);
-    const errorData = response.error.data;
-    console.log("found error data in error response, read call?", errorData);
-    if (typeof errorData === "string") {
-      for (const [error, errorFragment] of Object.entries(
-        contractInterface.errors
-      )) {
-        if (errorData.startsWith(contractInterface.getSighash(errorFragment))) {
-          // const args = contractInterface.decodeErrorResult(errorFragment, errorData)
-          return errorFragment.name;
-        }
-      }
-    }
-  } catch (error) {
-    // do nothing with the parse error so we can continue on
-  }
+//   // Read calls will revert differently
+//   try {
+//     const response = JSON.parse(error.error.response);
+//     const errorData = response.error.data;
+//     console.log("found error data in error response, read call?", errorData);
+//     if (typeof errorData === "string") {
+//       for (const [error, errorFragment] of Object.entries(
+//         contractInterface.errors
+//       )) {
+//         if (errorData.startsWith(contractInterface.getSighash(errorFragment))) {
+//           // const args = contractInterface.decodeErrorResult(errorFragment, errorData)
+//           return errorFragment.name;
+//         }
+//       }
+//     }
+//   } catch (error) {
+//     // do nothing with the parse error so we can continue on
+//   }
 
-  // Otherwise return error reason
-  if (typeof error.reason === "string") {
-    return error.reason;
-  }
-  // Fall back to error message
-  return error.message;
-};
+//   // Otherwise return error reason
+//   if (typeof error.reason === "string") {
+//     return error.reason;
+//   }
+//   // Fall back to error message
+//   return error.message;
+// };

@@ -1,6 +1,6 @@
-import { useContractRead } from "wagmi";
+// import { useContractRead } from "wagmi";
 
-import { provider, targetChainId } from "./EthereumProviders";
+// import { provider, targetChainId } from "./EthereumProviders";
 
 // I would have used `ExampleNFT__factory.connect` to create this, but we may
 // not have a provider ready to go. Any interactions with this contract should

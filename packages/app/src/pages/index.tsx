@@ -96,7 +96,9 @@ const NewPage = () => {
           <Select
             className="p-1"
             options={options}
-            onChange={setSelectedOption}
+            onChange={(e) =>
+              setSelectedOption({ value: e!.value, label: e!.label })
+            }
             defaultValue={selectedOption}
           />
           <input
@@ -137,7 +139,9 @@ const NewComment = () => {
           <Select
             className="p-1"
             options={options}
-            onChange={setSelectedOption}
+            onChange={(e) =>
+              setSelectedOption({ value: e!.value, label: e!.label })
+            }
             defaultValue={selectedOption}
           />
           <input
@@ -171,7 +175,9 @@ const NewLog = () => {
           <Select
             className="p-1"
             options={options}
-            onChange={setSelectedOption}
+            onChange={(e) =>
+              setSelectedOption({ value: e!.value, label: e!.label })
+            }
             defaultValue={selectedOption}
           />
           <input
