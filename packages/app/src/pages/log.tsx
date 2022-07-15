@@ -30,7 +30,7 @@ const Log: NextPage = () => {
   return (
     <>
       <Head>
-        <title>CJ's Log</title>
+        <title>CJs Log</title>
       </Head>
 
       <div className="flex justify-end p-4">
@@ -40,8 +40,8 @@ const Log: NextPage = () => {
         <h1 className="text-xl font-bold pb-4">Log</h1>
         {query &&
           query.data &&
-          query.data.logs.map((log) => (
-            <div className="flex space-x-4">
+          query.data.logs.map((log, id) => (
+            <div className="flex space-x-4" key={id}>
               <TimeAgo
                 datetime={log.created * 1000}
                 style={{ minWidth: "100px" }}

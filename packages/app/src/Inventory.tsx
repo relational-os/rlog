@@ -1,7 +1,6 @@
 import { gql } from "urql";
 import { useAccount, useNetwork } from "wagmi";
 
-import { useInventoryQuery } from "../codegen/subgraph";
 import { logContract, staticLogContract } from "./contracts";
 import { PendingIcon } from "./PendingIcon";
 import { useIsMounted } from "./useIsMounted";
