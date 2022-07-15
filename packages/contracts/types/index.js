@@ -23,10 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Wallet__factory = exports.Tag__factory = exports.Page__factory = exports.Ownable__factory = exports.Log__factory = exports.Comment__factory = exports.factories = void 0;
+exports.Wallet__factory = exports.Tag__factory = exports.Page__factory = exports.Ownable__factory = exports.Log__factory = exports.DeployRlog__factory = exports.Comment__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
 var Comment__factory_1 = require("./factories/Comment__factory");
 Object.defineProperty(exports, "Comment__factory", { enumerable: true, get: function () { return Comment__factory_1.Comment__factory; } });
+var DeployRlog__factory_1 = require("./factories/deployRlog.s.sol/DeployRlog__factory");
+Object.defineProperty(exports, "DeployRlog__factory", { enumerable: true, get: function () { return DeployRlog__factory_1.DeployRlog__factory; } });
 var Log__factory_1 = require("./factories/Log__factory");
 Object.defineProperty(exports, "Log__factory", { enumerable: true, get: function () { return Log__factory_1.Log__factory; } });
 var Ownable__factory_1 = require("./factories/Ownable__factory");

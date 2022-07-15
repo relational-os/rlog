@@ -52,6 +52,7 @@ importers:
       react-select: ^5.4.0
       react-toastify: ^9.0.4
       tailwindcss: ^3.0.5
+      timeago-react: ^3.0.5
       typescript: ^4.5.5
       urql: ^2.0.6
       wagmi: ^0.5.5
@@ -70,6 +71,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-select: 5.4.0_ku44vyaqhfvsakybl42wrekosu
       react-toastify: 9.0.4_sfoxds7t5ydpegc3knd667wn6m
+      timeago-react: 3.0.5_react@17.0.2
       urql: 2.0.6_idcs52lku4c45q42wkfxnvdmwq
       wagmi: 0.5.5_vf76qo6xcbq7orpx3zvcn2tuay
       zustand: 3.6.9_react@17.0.2
@@ -9141,6 +9143,19 @@ packages:
     dependencies:
       inherits: 2.0.4
       readable-stream: 3.6.0
+    dev: false
+
+  /timeago-react/3.0.5_react@17.0.2:
+    resolution: {integrity: sha512-1k/aDt+ADpcABCmg3BIBuZSa7aSxolmuYFkdcpL7mlNkFcDAK/KwuxLf68gowhM7Oq3vWTE7LPeq3kLkSt45Jg==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 17.0.2
+      timeago.js: 4.0.2
+    dev: false
+
+  /timeago.js/4.0.2:
+    resolution: {integrity: sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w==}
     dev: false
 
   /title-case/3.0.3:
