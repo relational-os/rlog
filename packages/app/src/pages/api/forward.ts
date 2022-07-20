@@ -33,18 +33,11 @@ const api: NextApiHandler = async (req, res) => {
     } = req.body;
 
     if (data && signature) {
-      const hashChar = parseInt(
-        utils
-          .id(`${data.message.from}${data.message.data}${signature}`)
-          .charAt(-1)
-      );
-
-      console.log("hash char", hashChar);
-
-      // const privateKey = PRIVATE_KEYS[hashChar % PRIVATE_KEYS.length];
-      const privateKey = PRIVATE_KEYS[0];
-
-      console.log("private keys", PRIVATE_KEYS);
+      console.log("hash char", parseInt(signature.slice(2, 34), 16));
+      const privateKey =
+        PRIVATE_KEYS[
+          parseInt(signature.slice(2, 34), 16) % PRIVATE_KEYS.length
+        ];
 
       const wallet = new Wallet(
         privateKey,
