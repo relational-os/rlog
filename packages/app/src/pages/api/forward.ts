@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { BigNumberish, BytesLike, Wallet } from "ethers";
+import { BigNumberish, BytesLike, utils, Wallet } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet__factory } from "@site-demo/contracts/types";
 import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
@@ -33,19 +33,20 @@ const api: NextApiHandler = async (req, res) => {
     } = req.body;
 
     if (data && signature) {
-      keccak256(`${data.message.from}${data.message.data}${signature}`);
-      const privateKey =
-        PRIVATE_KEYS[
-          //  data.message.from
-          parseInt(data.message.from.slice(-2), 16) % PRIVATE_KEYS.length
-        ];
+      const hashChar = parseInt(
+        utils
+          .id(`${data.message.from}${data.message.data}${signature}`)
+          .charAt(-1)
+      );
+
+      const privateKey = PRIVATE_KEYS[hashChar % PRIVATE_KEYS.length];
 
       const wallet = new Wallet(
         privateKey,
         new JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT)
       );
 
-      console.log("using wallet", wallet.address);
+      console.log(`using wallet ${wallet.address}`);
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
