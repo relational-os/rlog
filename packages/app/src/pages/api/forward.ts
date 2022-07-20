@@ -6,6 +6,7 @@ import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
 import { logContract, staticLogContract } from "../../contracts";
 import { polygonProvider } from "../../providers";
 import { parseUnits } from "ethers/lib/utils";
+import { provider } from "../../EthereumProviders";
 
 const PRIVATE_KEYS = [
   process.env.FORWARDER_PRIVATE_KEY_1 as string,
@@ -43,10 +44,11 @@ const api: NextApiHandler = async (req, res) => {
       );
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
-      // const nonce = await wallet.getTransactionCount();
+      const nonce = await wallet.getTransactionCount();
       // const feeData =
       const tx = await forwarder.execute(data.message, signature, {
-        // gasPrice: parseUnits("10", "gwei"),
+        nonce,
+        gasPrice: parseUnits("20", "gwei"),
       });
       return res.json(tx);
     } else {
