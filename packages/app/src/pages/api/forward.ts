@@ -52,9 +52,9 @@ const api: NextApiHandler = async (req, res) => {
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
       const feeData = await provider.getFeeData();
-      const gasPrice = (feeData.gasPrice ?? parseUnits("50", "gwei")).mul(
-        BigNumber.from(1.5)
-      );
+      const gasPrice = (feeData.gasPrice ?? parseUnits("50", "gwei"))
+        .mul(150)
+        .div(100);
       console.log("feeData", feeData, "gas price", gasPrice);
 
       const tx = await forwarder.execute(data.message, signature, {
