@@ -18,7 +18,7 @@ const PRIVATE_KEYS = [
   process.env.FORWARDER_PRIVATE_KEY_5 as string,
 ];
 
-const provider = new StaticJsonRpcProvider(
+const provider = new JsonRpcProvider(
   process.env.NEXT_PUBLIC_POLYGON_RPC_ENDOPOINT
 );
 
