@@ -51,7 +51,7 @@ const api: NextApiHandler = async (req, res) => {
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
-      const feeData = provider.getFeeData();
+      const feeData = await provider.getFeeData();
       console.log("feeData", feeData);
       const tx = await forwarder.execute(data.message, signature, {
         nonce,
