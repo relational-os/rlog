@@ -1,12 +1,14 @@
 import { NextApiHandler } from "next";
 import { BigNumberish, BytesLike, utils, Wallet } from "ethers";
-import { JsonRpcProvider } from "@ethersproject/providers";
+import {
+  JsonRpcProvider,
+  StaticJsonRpcProvider,
+} from "@ethersproject/providers";
 import { Wallet__factory } from "@site-demo/contracts/types";
 import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
-import { logContract, staticLogContract } from "../../contracts";
+import { staticLogContract } from "../../contracts";
 import { polygonProvider } from "../../providers";
-import { keccak256, parseUnits } from "ethers/lib/utils";
-import { provider } from "../../EthereumProviders";
+import { parseUnits } from "ethers/lib/utils";
 
 const PRIVATE_KEYS = [
   process.env.FORWARDER_PRIVATE_KEY_1 as string,
@@ -15,6 +17,10 @@ const PRIVATE_KEYS = [
   process.env.FORWARDER_PRIVATE_KEY_4 as string,
   process.env.FORWARDER_PRIVATE_KEY_5 as string,
 ];
+
+const provider = new StaticJsonRpcProvider(
+  process.env.NEXT_PUBLIC_POLYGON_RPC_ENDOPOINT
+);
 
 const api: NextApiHandler = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -39,16 +45,14 @@ const api: NextApiHandler = async (req, res) => {
           parseInt(signature.slice(2, 34), 16) % PRIVATE_KEYS.length
         ];
 
-      const wallet = new Wallet(
-        privateKey,
-        new JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT)
-      );
+      const wallet = new Wallet(privateKey, provider);
 
       console.log(`using wallet ${wallet.address}`);
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
-      // const feeData =
+      const feeData = provider.getFeeData();
+      console.log("feeData", feeData);
       const tx = await forwarder.execute(data.message, signature, {
         nonce,
         gasPrice: parseUnits("20", "gwei"),
