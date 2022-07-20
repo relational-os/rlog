@@ -55,10 +55,10 @@ const api: NextApiHandler = async (req, res) => {
       console.log("feeData", feeData);
       const tx = await forwarder.execute(data.message, signature, {
         nonce,
-        // gasPrice: feeData.gasPrice ?? parseUnits("50", "gwei"),
-        maxFeePerGas: feeData.maxFeePerGas ?? parseUnits("50", "gwei"),
-        maxPriorityFeePerGas:
-          feeData.maxPriorityFeePerGas ?? parseUnits("60", "gwei"),
+        gasPrice: (feeData.gasPrice ?? parseUnits("50", "gwei")).mul(1.5),
+        // maxFeePerGas: feeData.maxFeePerGas ?? parseUnits("50", "gwei"),
+        // maxPriorityFeePerGas:
+        //   feeData.maxPriorityFeePerGas ?? parseUnits("60", "gwei"),
       });
       return res.json(tx);
     } else {
