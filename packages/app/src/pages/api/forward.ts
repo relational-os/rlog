@@ -5,7 +5,7 @@ import { Wallet__factory } from "@site-demo/contracts/types";
 import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
 import { logContract, staticLogContract } from "../../contracts";
 import { polygonProvider } from "../../providers";
-import { parseUnits } from "ethers/lib/utils";
+import { keccak256, parseUnits } from "ethers/lib/utils";
 import { provider } from "../../EthereumProviders";
 
 const PRIVATE_KEYS = [
@@ -33,8 +33,10 @@ const api: NextApiHandler = async (req, res) => {
     } = req.body;
 
     if (data && signature) {
+      keccak256(`${data.message.from}${data.message.data}${signature}`);
       const privateKey =
         PRIVATE_KEYS[
+          //  data.message.from
           parseInt(data.message.from.slice(-2), 16) % PRIVATE_KEYS.length
         ];
 
@@ -42,6 +44,8 @@ const api: NextApiHandler = async (req, res) => {
         privateKey,
         new JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT)
       );
+
+      console.log("using wallet", wallet.address);
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
