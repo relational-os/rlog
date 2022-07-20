@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { BigNumberish, BytesLike, utils, Wallet } from "ethers";
+import { BigNumber, BigNumberish, BytesLike, utils, Wallet } from "ethers";
 import {
   JsonRpcProvider,
   StaticJsonRpcProvider,
@@ -52,10 +52,14 @@ const api: NextApiHandler = async (req, res) => {
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
       const nonce = await wallet.getTransactionCount();
       const feeData = await provider.getFeeData();
-      console.log("feeData", feeData);
+      const gasPrice = (feeData.gasPrice ?? parseUnits("50", "gwei")).mul(
+        BigNumber.from(1.5)
+      );
+      console.log("feeData", feeData, "gas price", gasPrice);
+
       const tx = await forwarder.execute(data.message, signature, {
         nonce,
-        gasPrice: (feeData.gasPrice ?? parseUnits("50", "gwei")).mul(1.5),
+        gasPrice,
         // maxFeePerGas: feeData.maxFeePerGas ?? parseUnits("50", "gwei"),
         // maxPriorityFeePerGas:
         //   feeData.maxPriorityFeePerGas ?? parseUnits("60", "gwei"),
