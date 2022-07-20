@@ -7,13 +7,12 @@ import { logContract, staticLogContract } from "../../contracts";
 import { polygonProvider } from "../../providers";
 import { parseUnits } from "ethers/lib/utils";
 
-// TODO: update with 5 keys
 const PRIVATE_KEYS = [
   process.env.FORWARDER_PRIVATE_KEY_1 as string,
-  //   process.env.FORWARDER_PRIVATE_KEY_2 as string,
-  //   process.env.FORWARDER_PRIVATE_KEY_3 as string,
-  //   process.env.FORWARDER_PRIVATE_KEY_4 as string,
-  //   process.env.FORWARDER_PRIVATE_KEY_5 as string,
+  process.env.FORWARDER_PRIVATE_KEY_2 as string,
+  process.env.FORWARDER_PRIVATE_KEY_3 as string,
+  process.env.FORWARDER_PRIVATE_KEY_4 as string,
+  process.env.FORWARDER_PRIVATE_KEY_5 as string,
 ];
 
 const api: NextApiHandler = async (req, res) => {
@@ -44,10 +43,10 @@ const api: NextApiHandler = async (req, res) => {
       );
 
       const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
-      const nonce = await wallet.getTransactionCount();
+      // const nonce = await wallet.getTransactionCount();
+      // const feeData =
       const tx = await forwarder.execute(data.message, signature, {
-        nonce,
-        gasPrice: parseUnits("10", "gwei"),
+        // gasPrice: parseUnits("10", "gwei"),
       });
       return res.json(tx);
     } else {
