@@ -39,7 +39,12 @@ const api: NextApiHandler = async (req, res) => {
           .charAt(-1)
       );
 
-      const privateKey = PRIVATE_KEYS[hashChar % PRIVATE_KEYS.length];
+      console.log("hash char", hashChar);
+
+      // const privateKey = PRIVATE_KEYS[hashChar % PRIVATE_KEYS.length];
+      const privateKey = PRIVATE_KEYS[0];
+
+      console.log("private keys", PRIVATE_KEYS);
 
       const wallet = new Wallet(
         privateKey,
