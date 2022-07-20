@@ -19,7 +19,7 @@ const PRIVATE_KEYS = [
 ];
 
 const provider = new JsonRpcProvider(
-  process.env.NEXT_PUBLIC_POLYGON_RPC_ENDOPOINT
+  process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT
 );
 
 const api: NextApiHandler = async (req, res) => {
