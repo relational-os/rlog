@@ -64,6 +64,7 @@ const api: NextApiHandler = async (req, res) => {
         // maxPriorityFeePerGas:
         //   feeData.maxPriorityFeePerGas ?? parseUnits("60", "gwei"),
       });
+      console.log("tx hash", tx.hash);
       return res.json(tx);
     } else {
       res.send("");
