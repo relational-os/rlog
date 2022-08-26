@@ -31,9 +31,11 @@ const api: NextApiHandler = async (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type");
   if (req.method == "POST") {
     const {
+      contractAddr,
       data,
       signature,
     }: {
+      contractAddr: string;
       data: any;
       signature: string;
     } = req.body;
@@ -49,8 +51,8 @@ const api: NextApiHandler = async (req, res) => {
 
       console.log(`using wallet ${wallet.address}`);
 
-      const forwarder = Wallet__factory.connect(deploys.Wallet, wallet);
-      const nonce = await wallet.getTransactionCount();
+      const forwarder = Wallet__factory.connect(contractAddr, wallet);
+      const nonce = await wallet.getTransactionCount("pending");
       const feeData = await provider.getFeeData();
       const gasPrice = (feeData.gasPrice ?? parseUnits("50", "gwei"))
         .mul(150)
@@ -58,7 +60,7 @@ const api: NextApiHandler = async (req, res) => {
       console.log("feeData", feeData, "gas price", gasPrice);
 
       const tx = await forwarder.execute(data.message, signature, {
-        // nonce,
+        nonce,
         gasPrice,
         // maxFeePerGas: feeData.maxFeePerGas ?? parseUnits("50", "gwei"),
         // maxPriorityFeePerGas:

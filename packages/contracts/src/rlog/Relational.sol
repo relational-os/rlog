@@ -2,7 +2,6 @@
 pragma solidity ^0.8.13;
 
 interface Relational {
-
     // TODO review naming: could be "Link"
     struct Relationship {
         address addr;
@@ -19,6 +18,8 @@ interface Relational {
         Relationship[] relationships;
     }
 
-
+    // function create(uint256 id, bytes data);
+    // function update(uint256 id, bytes data);
+    // function delete(uint256 id);
+    // function read(uint256 id) returns (bytes data);
 }
-

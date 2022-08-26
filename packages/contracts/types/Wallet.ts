@@ -60,6 +60,7 @@ export interface WalletInterface extends utils.Interface {
     "addSigner(address)": FunctionFragment;
     "allowedSigners(address)": FunctionFragment;
     "execute((address,address,uint256,uint256,uint256,bytes),bytes)": FunctionFragment;
+    "initialize(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -71,6 +72,7 @@ export interface WalletInterface extends utils.Interface {
       | "addSigner"
       | "allowedSigners"
       | "execute"
+      | "initialize"
       | "owner"
       | "renounceOwnership"
       | "transferOwnership"
@@ -88,6 +90,10 @@ export interface WalletInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "execute",
     values: [Wallet.ForwardRequestStruct, PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -109,6 +115,7 @@ export interface WalletInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -121,11 +128,22 @@ export interface WalletInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
 
   events: {
+    "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "SignerAdded(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SignerAdded"): EventFragment;
 }
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -138,6 +156,13 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
+
+export interface SignerAddedEventObject {
+  signer: string;
+}
+export type SignerAddedEvent = TypedEvent<[string], SignerAddedEventObject>;
+
+export type SignerAddedEventFilter = TypedEventFilter<SignerAddedEvent>;
 
 export interface Wallet extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -182,6 +207,11 @@ export interface Wallet extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    initialize(
+      owner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -214,6 +244,11 @@ export interface Wallet extends BaseContract {
     req: Wallet.ForwardRequestStruct,
     signature: PromiseOrValue<BytesLike>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  initialize(
+    owner: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   owner(overrides?: CallOverrides): Promise<string>;
@@ -250,6 +285,11 @@ export interface Wallet extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean, string]>;
 
+    initialize(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
@@ -267,6 +307,9 @@ export interface Wallet extends BaseContract {
   };
 
   filters: {
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
@@ -275,6 +318,9 @@ export interface Wallet extends BaseContract {
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
+
+    "SignerAdded(address)"(signer?: null): SignerAddedEventFilter;
+    SignerAdded(signer?: null): SignerAddedEventFilter;
   };
 
   estimateGas: {
@@ -292,6 +338,11 @@ export interface Wallet extends BaseContract {
       req: Wallet.ForwardRequestStruct,
       signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    initialize(
+      owner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -327,6 +378,11 @@ export interface Wallet extends BaseContract {
       req: Wallet.ForwardRequestStruct,
       signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    initialize(
+      owner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;

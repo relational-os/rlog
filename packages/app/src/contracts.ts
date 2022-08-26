@@ -29,15 +29,16 @@
 //   });
 import {
   Comment__factory,
-  Log,
   Log__factory,
   Page__factory,
   Tag__factory,
+  WalletFactory__factory,
 } from "@site-demo/contracts/types";
 import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
 
 import { Provider } from "@ethersproject/providers";
 import { polygonProvider } from "./providers";
+import { provider, targetChainId } from "./EthereumProviders";
 
 const network = process.env.NODE_ENV === "production" ? "matic" : "mumbai";
 
@@ -54,6 +55,13 @@ export const commentContract = (provider: Provider) => {
 export const logContract = (provider: Provider) => {
   return Log__factory.connect(deploys.Log, provider);
 };
+
+export const walletFactoryContract = WalletFactory__factory.connect(
+  deploys.WalletFactory,
+  provider({ chainId: targetChainId })
+);
+
+export const walletAddress = deploys.Wallet;
 
 export const staticLogContract = Log__factory.connect(
   deploys.Log,

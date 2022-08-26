@@ -956,6 +956,8 @@ export type _Block_ = {
   readonly hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   readonly number: Scalars['Int'];
+  /** Timestamp of the block if available, format depends on the chain */
+  readonly timestamp?: Maybe<Scalars['String']>;
 };
 
 /** The type for the top-level _meta field */

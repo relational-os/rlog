@@ -4,7 +4,6 @@ pragma solidity ^0.8.13;
 import "./Relational.sol";
 
 contract Comment is Relational {
-
     mapping(uint256 => Post) public comments;
     uint256 public commentID;
 
@@ -12,7 +11,7 @@ contract Comment is Relational {
     event CommentEdited(uint256 id, string data);
     event CommentRemoved(uint256 id);
 
-    function create(string memory data, Relationship memory parent)  public {
+    function create(string memory data, Relationship memory parent) public {
         Post storage comment = comments[commentID];
 
         comment.id = commentID;
@@ -39,6 +38,4 @@ contract Comment is Relational {
         delete comments[id];
         emit CommentRemoved(id);
     }
-
 }
-

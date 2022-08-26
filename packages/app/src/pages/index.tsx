@@ -34,9 +34,6 @@ const HomePage: NextPage = () => {
         <title>Example NFT</title>
       </Head>
 
-      <div className="flex justify-end p-4">
-        <ConnectButton />
-      </div>
       <div className="container mx-auto">
         <h1 className="text-xl font-bold pb-4">Contract Input</h1>
 

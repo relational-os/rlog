@@ -8,7 +8,7 @@ if [ -z "$CHAIN_NAME" ]; then
   exit 1
 fi
 
-declare -a CONTRACTS=("Wallet")
+declare -a CONTRACTS=("Wallet WalletFactory")
 ALL_DEPLOY_JSON="deploys/$CHAIN_NAME/all.json"
 
 mkdir -p $(dirname $ALL_DEPLOY_JSON)

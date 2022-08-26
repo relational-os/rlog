@@ -10,6 +10,7 @@ import {
 } from "urql";
 
 import { EthereumProviders } from "../EthereumProviders";
+import Header from "../components/header";
 
 export const graphClient = createGraphClient({
   url: "https://api.thegraph.com/subgraphs/name/cjpais/site",
@@ -23,6 +24,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       </Head>
       <GraphProvider value={graphClient}>
         <EthereumProviders>
+          <Header />
           <Component {...pageProps} />
         </EthereumProviders>
       </GraphProvider>
