@@ -1,6 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import TimeAgo from "timeago-react";
 import { gql } from "urql";
 import { useLatestLogsQuery } from "../../codegen/subgraph";
@@ -30,7 +31,7 @@ const Log: NextPage = () => {
   return (
     <>
       <Head>
-        <title>CJs Log</title>
+        <title>OURLOG</title>
       </Head>
 
       <div className="flex justify-end p-4">
@@ -41,11 +42,16 @@ const Log: NextPage = () => {
         {query &&
           query.data &&
           query.data.logs.map((log, id) => (
-            <div className="flex space-x-4" key={id}>
-              <TimeAgo
-                datetime={log.created * 1000}
-                style={{ minWidth: "100px" }}
-              ></TimeAgo>
+            <div className="flex flex-col space-x-4 pb-4" key={id}>
+              <div className="flex">
+                <TimeAgo
+                  datetime={log.created * 1000}
+                  style={{ minWidth: "150px" }}
+                ></TimeAgo>
+                <Link
+                  href={`https://mumbai.polygonscan.com/address/${log.author.id}`}
+                >{`by ${log.author.id.slice(0, 6)}...`}</Link>
+              </div>
               <div>{log.data}</div>
             </div>
           ))}
