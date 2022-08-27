@@ -34,9 +34,6 @@ const Log: NextPage = () => {
         <title>OURLOG</title>
       </Head>
 
-      <div className="flex justify-end p-4">
-        <ConnectButton />
-      </div>
       <div className="container mx-auto">
         <h1 className="text-xl font-bold pb-4">Log</h1>
         {query &&
