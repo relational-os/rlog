@@ -1,4 +1,3 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useWallet } from "../useWallet";
@@ -26,8 +25,6 @@ const options = [
 ];
 
 const HomePage: NextPage = () => {
-  const { connector, account } = useWallet();
-
   return (
     <>
       <Head>

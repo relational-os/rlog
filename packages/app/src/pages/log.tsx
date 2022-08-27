@@ -1,11 +1,9 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import TimeAgo from "timeago-react";
 import { gql } from "urql";
 import { useLatestLogsQuery } from "../../codegen/subgraph";
-import { useWallet } from "../useWallet";
 
 gql`
   query LatestLogs {
@@ -22,8 +20,6 @@ gql`
 `;
 
 const Log: NextPage = () => {
-  const { connector, account } = useWallet();
-
   const [query] = useLatestLogsQuery(
     typeof window === "undefined" ? { pause: true } : {}
   );
