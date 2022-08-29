@@ -33,7 +33,7 @@ export type Comment = {
   readonly __typename?: 'Comment';
   readonly author: Wallet;
   readonly comment?: Maybe<Comment>;
-  readonly comments: ReadonlyArray<Comment>;
+  readonly comments?: Maybe<ReadonlyArray<Comment>>;
   readonly created: Scalars['BigInt'];
   readonly data: Scalars['String'];
   readonly id: Scalars['ID'];
@@ -206,14 +206,15 @@ export enum Comment_OrderBy {
 export type Log = {
   readonly __typename?: 'Log';
   readonly author: Wallet;
-  readonly comments: ReadonlyArray<Comment>;
+  readonly comments?: Maybe<ReadonlyArray<Comment>>;
   readonly created: Scalars['BigInt'];
   readonly data: Scalars['String'];
   readonly id: Scalars['ID'];
-  readonly logs: ReadonlyArray<Log>;
+  readonly logs?: Maybe<ReadonlyArray<Log>>;
   readonly modified: Scalars['BigInt'];
-  readonly pages: ReadonlyArray<Page>;
-  readonly tags: ReadonlyArray<Tag>;
+  readonly pages?: Maybe<ReadonlyArray<Page>>;
+  readonly tags?: Maybe<ReadonlyArray<Tag>>;
+  readonly txHash?: Maybe<Scalars['String']>;
 };
 
 
@@ -348,6 +349,26 @@ export type Log_Filter = {
   readonly tags_not?: InputMaybe<ReadonlyArray<Scalars['String']>>;
   readonly tags_not_contains?: InputMaybe<ReadonlyArray<Scalars['String']>>;
   readonly tags_not_contains_nocase?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly txHash?: InputMaybe<Scalars['String']>;
+  readonly txHash_contains?: InputMaybe<Scalars['String']>;
+  readonly txHash_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly txHash_ends_with?: InputMaybe<Scalars['String']>;
+  readonly txHash_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly txHash_gt?: InputMaybe<Scalars['String']>;
+  readonly txHash_gte?: InputMaybe<Scalars['String']>;
+  readonly txHash_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly txHash_lt?: InputMaybe<Scalars['String']>;
+  readonly txHash_lte?: InputMaybe<Scalars['String']>;
+  readonly txHash_not?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_contains?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly txHash_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly txHash_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly txHash_starts_with?: InputMaybe<Scalars['String']>;
+  readonly txHash_starts_with_nocase?: InputMaybe<Scalars['String']>;
 };
 
 export enum Log_OrderBy {
@@ -359,7 +380,8 @@ export enum Log_OrderBy {
   Logs = 'logs',
   Modified = 'modified',
   Pages = 'pages',
-  Tags = 'tags'
+  Tags = 'tags',
+  TxHash = 'txHash'
 }
 
 /** Defines the order direction, either ascending or descending */
@@ -371,14 +393,14 @@ export enum OrderDirection {
 export type Page = {
   readonly __typename?: 'Page';
   readonly author: Wallet;
-  readonly comments: ReadonlyArray<Comment>;
+  readonly comments?: Maybe<ReadonlyArray<Comment>>;
   readonly created: Scalars['BigInt'];
   readonly data: Scalars['String'];
   readonly id: Scalars['ID'];
-  readonly logs: ReadonlyArray<Log>;
+  readonly logs?: Maybe<ReadonlyArray<Log>>;
   readonly modified: Scalars['BigInt'];
-  readonly pages: ReadonlyArray<Page>;
-  readonly tags: ReadonlyArray<Tag>;
+  readonly pages?: Maybe<ReadonlyArray<Page>>;
+  readonly tags?: Maybe<ReadonlyArray<Tag>>;
 };
 
 
@@ -752,12 +774,12 @@ export type SubscriptionWalletsArgs = {
 export type Tag = {
   readonly __typename?: 'Tag';
   readonly author: Wallet;
-  readonly comments: ReadonlyArray<Comment>;
+  readonly comments?: Maybe<ReadonlyArray<Comment>>;
   readonly created: Scalars['BigInt'];
   readonly id: Scalars['ID'];
-  readonly logs: ReadonlyArray<Log>;
+  readonly logs?: Maybe<ReadonlyArray<Log>>;
   readonly name: Scalars['String'];
-  readonly pages: ReadonlyArray<Page>;
+  readonly pages?: Maybe<ReadonlyArray<Page>>;
 };
 
 
@@ -885,6 +907,7 @@ export type Wallet = {
   readonly comments: ReadonlyArray<Comment>;
   readonly id: Scalars['ID'];
   readonly logs: ReadonlyArray<Log>;
+  readonly owner: Scalars['String'];
   readonly pages: ReadonlyArray<Page>;
   readonly tags: ReadonlyArray<Tag>;
 };
@@ -938,6 +961,26 @@ export type Wallet_Filter = {
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
   readonly logs_?: InputMaybe<Log_Filter>;
+  readonly owner?: InputMaybe<Scalars['String']>;
+  readonly owner_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly owner_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly owner_gt?: InputMaybe<Scalars['String']>;
+  readonly owner_gte?: InputMaybe<Scalars['String']>;
+  readonly owner_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly owner_lt?: InputMaybe<Scalars['String']>;
+  readonly owner_lte?: InputMaybe<Scalars['String']>;
+  readonly owner_not?: InputMaybe<Scalars['String']>;
+  readonly owner_not_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly owner_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly owner_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly owner_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly owner_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly owner_starts_with?: InputMaybe<Scalars['String']>;
+  readonly owner_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly pages_?: InputMaybe<Page_Filter>;
   readonly tags_?: InputMaybe<Tag_Filter>;
 };
@@ -946,6 +989,7 @@ export enum Wallet_OrderBy {
   Comments = 'comments',
   Id = 'id',
   Logs = 'logs',
+  Owner = 'owner',
   Pages = 'pages',
   Tags = 'tags'
 }
@@ -987,7 +1031,7 @@ export enum _SubgraphErrorPolicy_ {
 export type LatestLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LatestLogsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string } }> };
+export type LatestLogsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string } }> };
 
 
 export const LatestLogsDocument = gql`
@@ -996,6 +1040,7 @@ export const LatestLogsDocument = gql`
     id
     author {
       id
+      owner
     }
     created
     data
