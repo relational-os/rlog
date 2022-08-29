@@ -20,6 +20,8 @@ dataSources:
       abis:
         - name: Comment
           file: ../contracts/out/Comment.sol/Comment.abi.json
+        - name: Wallet
+          file: ../contracts/out/Wallet.sol/Wallet.abi.json
       eventHandlers:
         - event: CommentCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]),(address,uint256))
           handler: handleCommentCreated
@@ -46,6 +48,8 @@ dataSources:
       abis:
         - name: Log
           file: ../contracts/out/Log.sol/Log.abi.json
+        - name: Wallet
+          file: ../contracts/out/Wallet.sol/Wallet.abi.json
       eventHandlers:
         - event: LogCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]))
           handler: handleLogCreated
@@ -73,6 +77,8 @@ dataSources:
       abis:
         - name: Page
           file: ../contracts/out/Page.sol/Page.abi.json
+        - name: Wallet
+          file: ../contracts/out/Wallet.sol/Wallet.abi.json
       eventHandlers:
         - event: PageCreated(uint256,(uint256,address,uint256,uint256,string,(address,uint256)[]))
           handler: handlePageCreated
@@ -99,6 +105,8 @@ dataSources:
       abis:
         - name: Tag
           file: ../contracts/out/Tag.sol/Tag.abi.json
+        - name: Wallet
+          file: ../contracts/out/Wallet.sol/Wallet.abi.json
       eventHandlers:
         - event: TagCreated(uint256,(uint256,address,uint256,string))
           handler: handleTagCreated

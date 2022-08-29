@@ -6,21 +6,32 @@ import {
 } from "../generated/Comment/Comment";
 import {
   Comment as CommentEntity,
+  Log as LogEntity,
   Page as PageEntity,
   Tag as TagEntity,
-  Log as LogEntity,
   Wallet,
 } from "../generated/schema";
+import { Wallet as WalletContract } from "../generated/Tag/Wallet";
 import { getType } from "./parse";
 
 export function handleCommentCreated(event: CommentCreated): void {
   const wallet = new Wallet(event.params.data.author.toHexString());
+
+  // do a smart contract lookup
+  const owner = WalletContract.bind(event.params.data.author).try_owner();
+  if (owner.reverted) {
+    wallet.owner = event.params.data.author.toHexString();
+  } else {
+    wallet.owner = owner.value.toHexString();
+  }
+
   const comment = new CommentEntity(event.params.id.toString());
 
   comment.author = event.params.data.author.toHexString();
   comment.created = event.params.data.createdTimestamp;
   comment.modified = event.params.data.modifiedTimestamp;
   comment.data = event.params.data.data;
+  comment.comments = [];
 
   // go through relationships and add them (there can only be one)
   for (let i = 0; i < event.params.data.relationships.length; i++) {

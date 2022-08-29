@@ -1,21 +1,35 @@
 import { Log, LogCreated, LogEdited, LogRemoved } from "../generated/Log/Log";
 import {
   Comment as CommentEntity,
+  Log as LogEntity,
   Page as PageEntity,
   Tag as TagEntity,
-  Log as LogEntity,
   Wallet,
 } from "../generated/schema";
+import { Wallet as WalletContract } from "../generated/Tag/Wallet";
 import { getType } from "./parse";
 
 export function handleLogCreated(event: LogCreated): void {
   const wallet = new Wallet(event.params.data.author.toHexString());
   const log = new LogEntity(event.params.id.toString());
 
+  // do a smart contract lookup
+  const owner = WalletContract.bind(event.params.data.author).try_owner();
+  if (owner.reverted) {
+    wallet.owner = event.params.data.author.toHexString();
+  } else {
+    wallet.owner = owner.value.toHexString();
+  }
+
   log.author = event.params.data.author.toHexString();
   log.created = event.params.data.createdTimestamp;
   log.modified = event.params.data.modifiedTimestamp;
   log.data = event.params.data.data;
+  log.comments = [];
+  log.tags = [];
+  log.pages = [];
+  log.logs = [];
+
   // log.txHash = event.block.hash;
 
   // go through relationships and add them (there can only be one)
