@@ -21,7 +21,7 @@ const LogItem = (data: any) => {
         {"-"}
         <TimeAgo datetime={data.log.created * 1000}></TimeAgo>
       </div>
-      <div>
+      <div className="whitespace-pre-wrap">
         <Linkify>{data.log.data}</Linkify>
       </div>
     </div>
