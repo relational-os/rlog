@@ -4,31 +4,46 @@ pragma solidity ^0.8.13;
 import "./Relational.sol";
 
 contract Log is Relational {
+    struct LogContents {
+        uint256 id;
+        address author;
+        uint256 createdTimestamp;
+        uint256 modifiedTimestamp;
+        string data;
+        Relationship[] relationships;
+    }
 
-    event LogCreated(uint256 id, Post data);
+    event LogCreated(uint256 id, LogContents data);
     event LogEdited(uint256 id, string data);
     event LogRemoved(uint256 id);
 
-    mapping(uint256 => Post) public logs;
-    uint256 public logID;
+    mapping(uint256 => LogContents) public logs;
+    uint256 public logCount;
 
-    function create(string memory data) public {
-        Post storage log = logs[logID];
+    function create(string memory data, Relationship[] memory relationships)
+        public
+    {
+        LogContents storage log = logs[logCount];
 
-        log.id = logID;
+        log.id = logCount;
         log.author = msg.sender;
         log.createdTimestamp = block.timestamp;
         log.modifiedTimestamp = block.timestamp;
         log.data = data;
+
+        for (uint256 i = 0; i < relationships.length; i++) {
+            addBiDirectionalRelationship(logCount, relationships[i]);
+        }
+
         emit LogCreated(log.id, log);
 
-        logID++;
+        logCount++;
     }
 
     // TODO need to add errors, and probably add relationships too.
 
     function edit(uint256 id, string memory data) public {
-        Post storage log = logs[id];
+        LogContents storage log = logs[id];
 
         log.modifiedTimestamp = block.timestamp;
         log.data = data;
@@ -41,6 +56,28 @@ contract Log is Relational {
         emit LogRemoved(id);
     }
 
+    function addBiDirectionalRelationship(
+        uint256 id,
+        Relationship memory relationship
+    ) public {
+        Relationship memory thisLog = Relationship({
+            addr: address(this),
+            id: id
+        });
 
+        Relational(relationship.addr).addUniDirectionalRelationship(
+            relationship.id,
+            thisLog
+        );
+        addUniDirectionalRelationship(id, relationship);
+    }
+
+    function addUniDirectionalRelationship(
+        uint256 id,
+        Relationship memory relationship
+    ) public {
+        LogContents storage log = logs[id];
+        log.relationships.push(relationship);
+        emit RelationshipAdded(id, relationship);
+    }
 }
-

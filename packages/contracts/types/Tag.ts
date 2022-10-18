@@ -27,58 +27,110 @@ import type {
   PromiseOrValue,
 } from "./common";
 
+export declare namespace Relational {
+  export type RelationshipStruct = {
+    addr: PromiseOrValue<string>;
+    id: PromiseOrValue<BigNumberish>;
+  };
+
+  export type RelationshipStructOutput = [string, BigNumber] & {
+    addr: string;
+    id: BigNumber;
+  };
+}
+
 export declare namespace Tag {
   export type TagContentsStruct = {
     id: PromiseOrValue<BigNumberish>;
     author: PromiseOrValue<string>;
     createdTimestamp: PromiseOrValue<BigNumberish>;
     name: PromiseOrValue<string>;
+    relationships: Relational.RelationshipStruct[];
   };
 
   export type TagContentsStructOutput = [
     BigNumber,
     string,
     BigNumber,
-    string
+    string,
+    Relational.RelationshipStructOutput[]
   ] & {
     id: BigNumber;
     author: string;
     createdTimestamp: BigNumber;
     name: string;
+    relationships: Relational.RelationshipStructOutput[];
   };
 }
 
 export interface TagInterface extends utils.Interface {
   functions: {
-    "create(string)": FunctionFragment;
-    "tagID()": FunctionFragment;
+    "addBiDirectionalRelationship(uint256,(address,uint256))": FunctionFragment;
+    "addUniDirectionalRelationship(uint256,(address,uint256))": FunctionFragment;
+    "create(string,(address,uint256)[])": FunctionFragment;
+    "tagCount()": FunctionFragment;
     "tags(uint256)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "create" | "tagID" | "tags"
+    nameOrSignatureOrTopic:
+      | "addBiDirectionalRelationship"
+      | "addUniDirectionalRelationship"
+      | "create"
+      | "tagCount"
+      | "tags"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "create",
-    values: [PromiseOrValue<string>]
+    functionFragment: "addBiDirectionalRelationship",
+    values: [PromiseOrValue<BigNumberish>, Relational.RelationshipStruct]
   ): string;
-  encodeFunctionData(functionFragment: "tagID", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "addUniDirectionalRelationship",
+    values: [PromiseOrValue<BigNumberish>, Relational.RelationshipStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "create",
+    values: [PromiseOrValue<string>, Relational.RelationshipStruct[]]
+  ): string;
+  encodeFunctionData(functionFragment: "tagCount", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tags",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "addBiDirectionalRelationship",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addUniDirectionalRelationship",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tagID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tagCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tags", data: BytesLike): Result;
 
   events: {
+    "RelationshipAdded(uint256,tuple)": EventFragment;
     "TagCreated(uint256,tuple)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "RelationshipAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TagCreated"): EventFragment;
 }
+
+export interface RelationshipAddedEventObject {
+  id: BigNumber;
+  relationship: Relational.RelationshipStructOutput;
+}
+export type RelationshipAddedEvent = TypedEvent<
+  [BigNumber, Relational.RelationshipStructOutput],
+  RelationshipAddedEventObject
+>;
+
+export type RelationshipAddedEventFilter =
+  TypedEventFilter<RelationshipAddedEvent>;
 
 export interface TagCreatedEventObject {
   id: BigNumber;
@@ -118,12 +170,25 @@ export interface Tag extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    create(
-      name: PromiseOrValue<string>,
+    addBiDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    tagID(overrides?: CallOverrides): Promise<[BigNumber]>;
+    addUniDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    create(
+      name: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    tagCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     tags(
       arg0: PromiseOrValue<BigNumberish>,
@@ -138,12 +203,25 @@ export interface Tag extends BaseContract {
     >;
   };
 
-  create(
-    name: PromiseOrValue<string>,
+  addBiDirectionalRelationship(
+    tagID: PromiseOrValue<BigNumberish>,
+    relationship: Relational.RelationshipStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  tagID(overrides?: CallOverrides): Promise<BigNumber>;
+  addUniDirectionalRelationship(
+    tagID: PromiseOrValue<BigNumberish>,
+    relationship: Relational.RelationshipStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  create(
+    name: PromiseOrValue<string>,
+    relationships: Relational.RelationshipStruct[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  tagCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   tags(
     arg0: PromiseOrValue<BigNumberish>,
@@ -158,12 +236,25 @@ export interface Tag extends BaseContract {
   >;
 
   callStatic: {
-    create(
-      name: PromiseOrValue<string>,
+    addBiDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    tagID(overrides?: CallOverrides): Promise<BigNumber>;
+    addUniDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    create(
+      name: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    tagCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     tags(
       arg0: PromiseOrValue<BigNumberish>,
@@ -179,17 +270,39 @@ export interface Tag extends BaseContract {
   };
 
   filters: {
+    "RelationshipAdded(uint256,tuple)"(
+      id?: null,
+      relationship?: null
+    ): RelationshipAddedEventFilter;
+    RelationshipAdded(
+      id?: null,
+      relationship?: null
+    ): RelationshipAddedEventFilter;
+
     "TagCreated(uint256,tuple)"(id?: null, tag?: null): TagCreatedEventFilter;
     TagCreated(id?: null, tag?: null): TagCreatedEventFilter;
   };
 
   estimateGas: {
-    create(
-      name: PromiseOrValue<string>,
+    addBiDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    tagID(overrides?: CallOverrides): Promise<BigNumber>;
+    addUniDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    create(
+      name: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    tagCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     tags(
       arg0: PromiseOrValue<BigNumberish>,
@@ -198,12 +311,25 @@ export interface Tag extends BaseContract {
   };
 
   populateTransaction: {
-    create(
-      name: PromiseOrValue<string>,
+    addBiDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    tagID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    addUniDirectionalRelationship(
+      tagID: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    create(
+      name: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    tagCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tags(
       arg0: PromiseOrValue<BigNumberish>,

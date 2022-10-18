@@ -9,14 +9,24 @@ interface Relational {
         // maybe need to add author in here too
     }
 
-    struct Post {
-        uint256 id;
-        address author;
-        uint256 createdTimestamp;
-        uint256 modifiedTimestamp;
-        string data;
-        Relationship[] relationships;
-    }
+    event RelationshipAdded(uint256 id, Relationship relationship);
+
+    // Option 1: call the other contract and emit events in both
+    // Collection is of B (1,2,3)
+    // Collection calls add relationships on id's 1,2,3 with the relationship (addr(collection), id(collection_id))
+    // CreateCollection()
+
+    // Option 2: emit events in just the contract which was called
+
+    function addBiDirectionalRelationship(uint256 targetId, Relationship memory)
+        external;
+
+    function addUniDirectionalRelationship(
+        uint256 targetId,
+        Relationship memory
+    ) external;
+
+    // function removeRelationship(Relationship memory) external;
 
     // function create(uint256 id, bytes data);
     // function update(uint256 id, bytes data);

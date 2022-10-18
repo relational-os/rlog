@@ -1,11 +1,5 @@
 import { Log, LogCreated, LogEdited, LogRemoved } from "../generated/Log/Log";
-import {
-  Comment as CommentEntity,
-  Log as LogEntity,
-  Page as PageEntity,
-  Tag as TagEntity,
-  Wallet,
-} from "../generated/schema";
+import { Log as LogEntity, Wallet } from "../generated/schema";
 import { Wallet as WalletContract } from "../generated/Tag/Wallet";
 import { getType } from "./parse";
 
@@ -25,12 +19,10 @@ export function handleLogCreated(event: LogCreated): void {
   log.created = event.params.data.createdTimestamp;
   log.modified = event.params.data.modifiedTimestamp;
   log.data = event.params.data.data;
-  log.comments = [];
   log.tags = [];
-  log.pages = [];
   log.logs = [];
 
-  // log.txHash = event.block.hash;
+  log.txHash = event.block.hash.toHexString();
 
   // go through relationships and add them (there can only be one)
   for (let i = 0; i < event.params.data.relationships.length; i++) {

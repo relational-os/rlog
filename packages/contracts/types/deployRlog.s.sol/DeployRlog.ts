@@ -25,9 +25,8 @@ import type {
 export interface DeployRlogInterface extends utils.Interface {
   functions: {
     "IS_SCRIPT()": FunctionFragment;
-    "commentContract()": FunctionFragment;
+    "collectionContract()": FunctionFragment;
     "logContract()": FunctionFragment;
-    "pageContract()": FunctionFragment;
     "run()": FunctionFragment;
     "tagContract()": FunctionFragment;
     "vm()": FunctionFragment;
@@ -36,9 +35,8 @@ export interface DeployRlogInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "IS_SCRIPT"
-      | "commentContract"
+      | "collectionContract"
       | "logContract"
-      | "pageContract"
       | "run"
       | "tagContract"
       | "vm"
@@ -46,15 +44,11 @@ export interface DeployRlogInterface extends utils.Interface {
 
   encodeFunctionData(functionFragment: "IS_SCRIPT", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "commentContract",
+    functionFragment: "collectionContract",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "logContract",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "pageContract",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "run", values?: undefined): string;
@@ -66,15 +60,11 @@ export interface DeployRlogInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "IS_SCRIPT", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "commentContract",
+    functionFragment: "collectionContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "logContract",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "pageContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "run", data: BytesLike): Result;
@@ -116,11 +106,9 @@ export interface DeployRlog extends BaseContract {
   functions: {
     IS_SCRIPT(overrides?: CallOverrides): Promise<[boolean]>;
 
-    commentContract(overrides?: CallOverrides): Promise<[string]>;
+    collectionContract(overrides?: CallOverrides): Promise<[string]>;
 
     logContract(overrides?: CallOverrides): Promise<[string]>;
-
-    pageContract(overrides?: CallOverrides): Promise<[string]>;
 
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -133,11 +121,9 @@ export interface DeployRlog extends BaseContract {
 
   IS_SCRIPT(overrides?: CallOverrides): Promise<boolean>;
 
-  commentContract(overrides?: CallOverrides): Promise<string>;
+  collectionContract(overrides?: CallOverrides): Promise<string>;
 
   logContract(overrides?: CallOverrides): Promise<string>;
-
-  pageContract(overrides?: CallOverrides): Promise<string>;
 
   run(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -150,11 +136,9 @@ export interface DeployRlog extends BaseContract {
   callStatic: {
     IS_SCRIPT(overrides?: CallOverrides): Promise<boolean>;
 
-    commentContract(overrides?: CallOverrides): Promise<string>;
+    collectionContract(overrides?: CallOverrides): Promise<string>;
 
     logContract(overrides?: CallOverrides): Promise<string>;
-
-    pageContract(overrides?: CallOverrides): Promise<string>;
 
     run(overrides?: CallOverrides): Promise<void>;
 
@@ -168,11 +152,9 @@ export interface DeployRlog extends BaseContract {
   estimateGas: {
     IS_SCRIPT(overrides?: CallOverrides): Promise<BigNumber>;
 
-    commentContract(overrides?: CallOverrides): Promise<BigNumber>;
+    collectionContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     logContract(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pageContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -186,11 +168,11 @@ export interface DeployRlog extends BaseContract {
   populateTransaction: {
     IS_SCRIPT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    commentContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    collectionContract(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     logContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pageContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }

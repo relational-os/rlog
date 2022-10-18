@@ -1,41 +1,34 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.17;
 
 import "forge-std/Script.sol";
 
-import {Solenv} from "solenv/Solenv.sol";
-
-import {Comment} from "../Comment.sol";
-import {Log} from "../Log.sol";
-import {Page} from "../Page.sol";
-import {Tag} from "../Tag.sol";
+import {Log} from "../src/rlog/Log.sol";
+import {Collection} from "../src/rlog/Collection.sol";
+import {Tag} from "../src/rlog/Tag.sol";
 
 contract DeployRlog is Script {
     // Deployable contracts
-    Comment public commentContract;
     Log public logContract;
-    Page public pageContract;
+    Collection public collectionContract;
     Tag public tagContract;
 
     function run() public {
         // Deployment config from .env.local file
-        Solenv.config(".env.local");
+        // Solenv.config(".env.local");
         // address deployer = vm.envAddress("DEPLOYER");
+        vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
 
-        vm.startBroadcast();
         console.log(msg.sender);
-
-        // Deploy comment contract
-        commentContract = new Comment();
 
         // Deploy log contract
         logContract = new Log();
 
-        // Deploy page contract
-        pageContract = new Page();
-
         // Deploy tag contract
         tagContract = new Tag();
+
+        // Deploy collection contract
+        collectionContract = new Collection();
 
         vm.stopBroadcast();
     }

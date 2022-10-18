@@ -26,13 +26,8 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint256",
-            "name": "modifiedTimestamp",
-            "type": "uint256"
-          },
-          {
             "internalType": "string",
-            "name": "data",
+            "name": "name",
             "type": "string"
           },
           {
@@ -54,9 +49,22 @@
           }
         ],
         "indexed": false,
-        "internalType": "struct Relational.Post",
-        "name": "data",
+        "internalType": "struct Collection.CollectionContents",
+        "name": "collection",
         "type": "tuple"
+      }
+    ],
+    "name": "CollectionCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
         "components": [
@@ -73,48 +81,76 @@
         ],
         "indexed": false,
         "internalType": "struct Relational.Relationship",
-        "name": "parent",
+        "name": "relationship",
         "type": "tuple"
       }
     ],
-    "name": "CommentCreated",
+    "name": "RelationshipAdded",
     "type": "event"
   },
   {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
         "internalType": "uint256",
-        "name": "id",
+        "name": "collectionID",
         "type": "uint256"
       },
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "data",
-        "type": "string"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Relational.Relationship",
+        "name": "relationship",
+        "type": "tuple"
       }
     ],
-    "name": "CommentEdited",
-    "type": "event"
+    "name": "addBiDirectionalRelationship",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
         "internalType": "uint256",
-        "name": "id",
+        "name": "collectionID",
         "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Relational.Relationship",
+        "name": "relationship",
+        "type": "tuple"
       }
     ],
-    "name": "CommentRemoved",
-    "type": "event"
+    "name": "addUniDirectionalRelationship",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [],
-    "name": "commentID",
+    "name": "collectionCount",
     "outputs": [
       {
         "internalType": "uint256",
@@ -133,7 +169,7 @@
         "type": "uint256"
       }
     ],
-    "name": "comments",
+    "name": "collections",
     "outputs": [
       {
         "internalType": "uint256",
@@ -151,13 +187,8 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "modifiedTimestamp",
-        "type": "uint256"
-      },
-      {
         "internalType": "string",
-        "name": "data",
+        "name": "name",
         "type": "string"
       }
     ],
@@ -168,7 +199,7 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "data",
+        "name": "name",
         "type": "string"
       },
       {
@@ -184,43 +215,12 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct Relational.Relationship",
-        "name": "parent",
-        "type": "tuple"
+        "internalType": "struct Relational.Relationship[]",
+        "name": "relationships",
+        "type": "tuple[]"
       }
     ],
     "name": "create",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "data",
-        "type": "string"
-      }
-    ],
-    "name": "edit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "remove",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

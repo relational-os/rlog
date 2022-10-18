@@ -1,9 +1,8 @@
 // TODO: import these directly from the other package
 
 export function getType(addr: string): string {
-  if (addr == "0x52318aea70b497c8d3cc83f985991370cc9e297b") return "comment";
-  if (addr == "0x9afd94b0d13b3f360eacd44ea856b1da669cd15e") return "page";
-  if (addr == "0x2ac2436b1fa3f9ff3d058fa66bbe695d371617f7") return "tag";
-  if (addr == "0x7c376918cacf56576db22921b780f2c220b28c52") return "log";
+  if (addr == "0xEc1F9236E395A9C0B22eE79aEFB570c999864c6A") return "collection";
+  if (addr == "0x901a7da3240b2b60181ec6a0dc58cb05f0f20dce") return "tag";
+  if (addr == "0xb8A4C0Fb6Fb8028720c4272e70bFF3dDa94A5aA8") return "log";
   return "";
 }

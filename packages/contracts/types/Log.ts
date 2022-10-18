@@ -37,8 +37,10 @@ export declare namespace Relational {
     addr: string;
     id: BigNumber;
   };
+}
 
-  export type PostStruct = {
+export declare namespace Log {
+  export type LogContentsStruct = {
     id: PromiseOrValue<BigNumberish>;
     author: PromiseOrValue<string>;
     createdTimestamp: PromiseOrValue<BigNumberish>;
@@ -47,7 +49,7 @@ export declare namespace Relational {
     relationships: Relational.RelationshipStruct[];
   };
 
-  export type PostStructOutput = [
+  export type LogContentsStructOutput = [
     BigNumber,
     string,
     BigNumber,
@@ -66,26 +68,43 @@ export declare namespace Relational {
 
 export interface LogInterface extends utils.Interface {
   functions: {
-    "create(string)": FunctionFragment;
+    "addBiDirectionalRelationship(uint256,(address,uint256))": FunctionFragment;
+    "addUniDirectionalRelationship(uint256,(address,uint256))": FunctionFragment;
+    "create(string,(address,uint256)[])": FunctionFragment;
     "edit(uint256,string)": FunctionFragment;
-    "logID()": FunctionFragment;
+    "logCount()": FunctionFragment;
     "logs(uint256)": FunctionFragment;
     "remove(uint256)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "create" | "edit" | "logID" | "logs" | "remove"
+    nameOrSignatureOrTopic:
+      | "addBiDirectionalRelationship"
+      | "addUniDirectionalRelationship"
+      | "create"
+      | "edit"
+      | "logCount"
+      | "logs"
+      | "remove"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "addBiDirectionalRelationship",
+    values: [PromiseOrValue<BigNumberish>, Relational.RelationshipStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addUniDirectionalRelationship",
+    values: [PromiseOrValue<BigNumberish>, Relational.RelationshipStruct]
+  ): string;
+  encodeFunctionData(
     functionFragment: "create",
-    values: [PromiseOrValue<string>]
+    values: [PromiseOrValue<string>, Relational.RelationshipStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "edit",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "logID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "logCount", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "logs",
     values: [PromiseOrValue<BigNumberish>]
@@ -95,9 +114,17 @@ export interface LogInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "addBiDirectionalRelationship",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addUniDirectionalRelationship",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "edit", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "logID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "logCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "logs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "remove", data: BytesLike): Result;
 
@@ -105,19 +132,21 @@ export interface LogInterface extends utils.Interface {
     "LogCreated(uint256,tuple)": EventFragment;
     "LogEdited(uint256,string)": EventFragment;
     "LogRemoved(uint256)": EventFragment;
+    "RelationshipAdded(uint256,tuple)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "LogCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogEdited"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RelationshipAdded"): EventFragment;
 }
 
 export interface LogCreatedEventObject {
   id: BigNumber;
-  data: Relational.PostStructOutput;
+  data: Log.LogContentsStructOutput;
 }
 export type LogCreatedEvent = TypedEvent<
-  [BigNumber, Relational.PostStructOutput],
+  [BigNumber, Log.LogContentsStructOutput],
   LogCreatedEventObject
 >;
 
@@ -140,6 +169,18 @@ export interface LogRemovedEventObject {
 export type LogRemovedEvent = TypedEvent<[BigNumber], LogRemovedEventObject>;
 
 export type LogRemovedEventFilter = TypedEventFilter<LogRemovedEvent>;
+
+export interface RelationshipAddedEventObject {
+  id: BigNumber;
+  relationship: Relational.RelationshipStructOutput;
+}
+export type RelationshipAddedEvent = TypedEvent<
+  [BigNumber, Relational.RelationshipStructOutput],
+  RelationshipAddedEventObject
+>;
+
+export type RelationshipAddedEventFilter =
+  TypedEventFilter<RelationshipAddedEvent>;
 
 export interface Log extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -168,8 +209,21 @@ export interface Log extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    addBiDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    addUniDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     create(
       data: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -179,7 +233,7 @@ export interface Log extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    logID(overrides?: CallOverrides): Promise<[BigNumber]>;
+    logCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     logs(
       arg0: PromiseOrValue<BigNumberish>,
@@ -200,8 +254,21 @@ export interface Log extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  addBiDirectionalRelationship(
+    id: PromiseOrValue<BigNumberish>,
+    relationship: Relational.RelationshipStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  addUniDirectionalRelationship(
+    id: PromiseOrValue<BigNumberish>,
+    relationship: Relational.RelationshipStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   create(
     data: PromiseOrValue<string>,
+    relationships: Relational.RelationshipStruct[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -211,7 +278,7 @@ export interface Log extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  logID(overrides?: CallOverrides): Promise<BigNumber>;
+  logCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   logs(
     arg0: PromiseOrValue<BigNumberish>,
@@ -232,8 +299,21 @@ export interface Log extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    addBiDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    addUniDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     create(
       data: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -243,7 +323,7 @@ export interface Log extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    logID(overrides?: CallOverrides): Promise<BigNumber>;
+    logCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     logs(
       arg0: PromiseOrValue<BigNumberish>,
@@ -273,11 +353,33 @@ export interface Log extends BaseContract {
 
     "LogRemoved(uint256)"(id?: null): LogRemovedEventFilter;
     LogRemoved(id?: null): LogRemovedEventFilter;
+
+    "RelationshipAdded(uint256,tuple)"(
+      id?: null,
+      relationship?: null
+    ): RelationshipAddedEventFilter;
+    RelationshipAdded(
+      id?: null,
+      relationship?: null
+    ): RelationshipAddedEventFilter;
   };
 
   estimateGas: {
+    addBiDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    addUniDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     create(
       data: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -287,7 +389,7 @@ export interface Log extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    logID(overrides?: CallOverrides): Promise<BigNumber>;
+    logCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     logs(
       arg0: PromiseOrValue<BigNumberish>,
@@ -301,8 +403,21 @@ export interface Log extends BaseContract {
   };
 
   populateTransaction: {
+    addBiDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addUniDirectionalRelationship(
+      id: PromiseOrValue<BigNumberish>,
+      relationship: Relational.RelationshipStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     create(
       data: PromiseOrValue<string>,
+      relationships: Relational.RelationshipStruct[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -312,7 +427,7 @@ export interface Log extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    logID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    logCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     logs(
       arg0: PromiseOrValue<BigNumberish>,

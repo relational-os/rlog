@@ -14,10 +14,10 @@
   },
   {
     "inputs": [],
-    "name": "commentContract",
+    "name": "collectionContract",
     "outputs": [
       {
-        "internalType": "contract Comment",
+        "internalType": "contract Collection",
         "name": "",
         "type": "address"
       }
@@ -31,19 +31,6 @@
     "outputs": [
       {
         "internalType": "contract Log",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "pageContract",
-    "outputs": [
-      {
-        "internalType": "contract Page",
         "name": "",
         "type": "address"
       }

@@ -1,7 +1,5 @@
 import {
-  Comment as CommentEntity,
   Log as LogEntity,
-  Page as PageEntity,
   Tag as TagEntity,
   Wallet,
 } from "../generated/schema";
@@ -24,9 +22,7 @@ export function handleTagCreated(event: TagCreated): void {
   tag.created = event.params.tag.createdTimestamp;
   tag.name = event.params.tag.name;
 
-  tag.pages = [];
   tag.logs = [];
-  tag.comments = [];
 
   wallet.save();
   tag.save();

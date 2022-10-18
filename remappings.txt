@@ -1,4 +1,2 @@
-forge-std/=packages/contracts/lib/forge-std/src/
-@openzeppelin/=packages/contracts/lib/openzeppelin-contracts/
-erc721a/=packages/contracts/lib/ERC721A/
-solenv/=packages/contracts/lib/solenv/src
+forge-std/=lib/forge-std/src/
+@openzeppelin/=lib/openzeppelin-contracts/
