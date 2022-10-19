@@ -118,12 +118,14 @@ const generateSignature = async () => {
   const PK = "e4ff0c790c81e7c0e910632f05590070ec4a976a51832a947104cffef5b2ae24";
   const wallet = new Wallet(PK, polygonProvider);
   const { data } = await staticLogContract.populateTransaction["create"](
-    "hello world"
+    "hello world",
+    []
   );
 
   if (data) {
     const gasLimit = await staticLogContract.estimateGas["create"](
-      "hello world"
+      "hello world",
+      []
     );
 
     console.log("log addr", deploys.Log);

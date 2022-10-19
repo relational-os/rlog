@@ -4,7 +4,6 @@ import { useWallet } from "../useWallet";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import tagABI from "@site-demo/contracts/out/Tag.sol/Tag.abi.json";
-import pageABI from "@site-demo/contracts/out/Page.sol/Page.abi.json";
 import contracts from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
@@ -35,118 +34,9 @@ const Tag: NextPage = () => {
         <h1 className="text-xl font-bold pb-4">Contract Input</h1>
 
         <div className="flex flex-col space-y-2 p-2">
-          <NewPage />
-          <NewComment />
           <NewTag />
           <NewLog />
         </div>
-      </div>
-    </>
-  );
-};
-
-const NewPage = () => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [content, setContent] = useState("");
-  const [pageRelationshipId, setPageRelationshipId] = useState<number | null>(
-    null
-  );
-
-  const { data, write } = useContractWrite({
-    addressOrName: contracts.Page,
-    contractInterface: pageABI,
-    functionName: "create",
-    args: [
-      content,
-      pageRelationshipId
-        ? // TODO fix this being hardcoded
-          [[selectedOption.value, pageRelationshipId]]
-        : [],
-    ],
-  });
-  const txWait = useWaitForTransaction({ hash: data?.hash });
-
-  useEffect(() => {
-    if (txWait && txWait.status) {
-      console.log("tx wait status", txWait.status);
-    }
-  }, [txWait]);
-
-  console.log(pageRelationshipId, content, contracts.Page);
-
-  return (
-    <>
-      <h2 className="text-lg font-bold">Page</h2>
-      <div className="px-4">
-        <h3 className="text-md font-semibold">Data</h3>
-        <textarea
-          className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
-        />
-        <h3 className="text-md font-semibold">Relationship</h3>
-        <div className="flex">
-          <Select
-            className="p-1"
-            options={options}
-            onChange={(e) =>
-              setSelectedOption({ value: e!.value, label: e!.label })
-            }
-            defaultValue={selectedOption}
-          />
-          <input
-            className="border border-gray-300 p-2 mx-2 w-16 rounded-lg"
-            type="number"
-            onChange={(e) => setPageRelationshipId(parseInt(e.target.value))}
-          />
-        </div>
-        <button
-          disabled={!content || !pageRelationshipId}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-          onClick={() => {
-            if (content == "") throw new Error("Content is empty");
-            write();
-          }}
-        >
-          Write
-        </button>
-      </div>
-    </>
-  );
-};
-
-const NewComment = () => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [commentRelationshipId, setCommentRelationshipId] = useState<
-    number | null
-  >(null);
-
-  return (
-    <>
-      <h2 className="text-lg font-bold">Comment</h2>
-      <div className="px-4">
-        <h3 className="text-md font-semibold">Data</h3>
-        <textarea className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400" />
-        <h3 className="text-md font-semibold">Relationship</h3>
-        <div className="flex">
-          <Select
-            className="p-1"
-            options={options}
-            onChange={(e) =>
-              setSelectedOption({ value: e!.value, label: e!.label })
-            }
-            defaultValue={selectedOption}
-          />
-          <input
-            className="border border-gray-300 p-2 mx-2 w-16 rounded-lg"
-            type="number"
-            onChange={(e) => setCommentRelationshipId(parseInt(e.target.value))}
-          />
-        </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-          Write
-        </button>
       </div>
     </>
   );
