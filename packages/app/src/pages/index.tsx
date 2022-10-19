@@ -1,8 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
-import { gql } from "urql";
-import { useLatestLogsQuery } from "../../codegen/subgraph";
-import LogItem from "../components/LogItem";
+import { useEffect, useState } from "react";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -11,31 +8,13 @@ import {
 
 import contracts from "../../../../packages/contracts/deploys/polygon-mumbai/all.json";
 import logABI from "../../../../packages/contracts/out/Log.sol/Log.abi.json";
-
-gql`
-  query LatestLogs {
-    logs(first: 100, orderBy: created, orderDirection: desc) {
-      id
-      author {
-        id
-        owner
-      }
-      created
-      data
-      modified
-    }
-  }
-`;
+import FeedAuthors from "../components/FeedAuthors";
+import FeedTags from "../components/FeedTags";
+import FeedAuthorsAndTags from "../components/FeedAuthorsAndTags";
+import FeedAll from "../components/FeedAll";
 
 const HomePage: NextPage = () => {
-  const [query] = useLatestLogsQuery(
-    typeof window === "undefined" ? { pause: true } : {}
-  );
-
   const [logEntry, setLogEntry] = useState("");
-  // const submitLog = () => {
-  //   console.log("submitting log!", logEntry);
-  // };
 
   const { config } = usePrepareContractWrite({
     address: contracts.Log,
@@ -51,24 +30,79 @@ const HomePage: NextPage = () => {
     hash: data?.hash,
   });
 
-  const [searchQueryAuthors, setSearchQueryAuthors] = useState([]);
-  const [searchQueryTags, setSearchQueryTags] = useState([]);
+  const [searchQueryAuthors, setSearchQueryAuthors] = useState<string[]>([]);
+  const [searchQueryAuthor, setSearchQueryAuthor] = useState("");
+  const [searchQueryTags, setSearchQueryTags] = useState<string[]>([]);
+  const [searchQueryTag, setSearchQueryTag] = useState("");
 
-  // const updateSearch = async () => {
+  const [pageState, setPageState] = useState<
+    "queryAuthors" | "queryTags" | "queryAuthorsAndTags" | "queryAll"
+  >("queryAll");
 
-  // };
+  const calculatePageState = () => {
+    if (searchQueryAuthors.length > 0 && searchQueryTags.length > 0) {
+      setPageState("queryAuthorsAndTags");
+    } else if (searchQueryAuthors.length > 0 && searchQueryTags.length == 0) {
+      setPageState("queryAuthors");
+    } else if (searchQueryAuthors.length == 0 && searchQueryTags.length > 0) {
+      setPageState("queryTags");
+    } else {
+      setPageState("queryAll");
+    }
+  };
+
+  useEffect(() => {
+    calculatePageState();
+  }, [searchQueryAuthors, searchQueryTags]);
 
   return (
     <>
       <div className="container max-w-2xl mx-auto">
         <div className="flex flex-col">
+          <span className="bg-green-400">
+            searching authors:
+            <pre>{JSON.stringify(searchQueryAuthors, null, 2)}</pre>
+            tags: <pre>{JSON.stringify(searchQueryTags, null, 2)}</pre>
+          </span>
+          <button
+            onClick={() => {
+              setSearchQueryAuthors([]);
+              setSearchQueryTags([]);
+            }}
+          >
+            clear filters
+          </button>
           <div className="border border-1">
             <span>@🔎</span>
-            <input></input>
+            <input
+              onChange={(e) => setSearchQueryAuthor(e.target.value)}
+              value={searchQueryAuthor}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearchQueryAuthors([
+                    ...searchQueryAuthors,
+                    searchQueryAuthor.toLowerCase(),
+                  ]);
+                  setSearchQueryAuthor("");
+                  calculatePageState();
+                }
+              }}
+            ></input>
           </div>
+
           <div className="border border-1">
             <span>#🔎</span>
-            <input></input>
+            <input
+              onChange={(e) => setSearchQueryTag(e.target.value)}
+              value={searchQueryTag}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearchQueryTags([...searchQueryTags, searchQueryTag]);
+                  setSearchQueryTag("");
+                  calculatePageState();
+                }
+              }}
+            ></input>
           </div>
 
           <span>eth.ens</span>
@@ -85,6 +119,8 @@ const HomePage: NextPage = () => {
               disabled={!write}
               onClick={() => {
                 write?.();
+                // todo: change to disabled state, clear after tx confirm or something
+                // todo: update query after tx confirm
                 setLogEntry("");
               }}
             >
@@ -95,7 +131,7 @@ const HomePage: NextPage = () => {
                 Successfully created your log!
                 <div>
                   <a href={`https://mumbai.polygonscan.com/tx/${data?.hash}`}>
-                    Etherscan
+                    View on Polygonscan
                   </a>
                 </div>
               </div>
@@ -103,11 +139,19 @@ const HomePage: NextPage = () => {
           </div>
         </div>
         <h1 className="text-xl font-bold pb-4">Log</h1>
-        <div className="flex flex-col space-y-2 p-2">
-          {query &&
-            query.data &&
-            query.data.logs.map((log, id) => <LogItem log={log} key={id} />)}
-        </div>
+        {pageState == "queryAuthors" && (
+          <FeedAuthors searchQueryAuthors={searchQueryAuthors}></FeedAuthors>
+        )}
+        {pageState == "queryTags" && (
+          <FeedTags searchQueryTags={searchQueryTags}></FeedTags>
+        )}
+        {pageState == "queryAuthorsAndTags" && (
+          <FeedAuthorsAndTags
+            searchQueryAuthors={searchQueryAuthors}
+            searchQueryTags={searchQueryTags}
+          ></FeedAuthorsAndTags>
+        )}
+        {pageState == "queryAll" && <FeedAll></FeedAll>}
       </div>
     </>
   );

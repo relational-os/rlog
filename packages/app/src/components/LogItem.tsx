@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import TimeAgo from "timeago-react";
 import { useENS } from "../useENS";
 import Linkify from "react-linkify";
@@ -9,13 +9,26 @@ import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
 import logABI from "../../../contracts/out/Log.sol/Log.abi.json";
 import { BigNumber } from "ethers";
 import { getAddress } from "@ethersproject/address";
+import { gql } from "urql";
+import { useTagsQuery } from "../../codegen/subgraph";
+
+gql`
+  query Tags {
+    tags(first: 100) {
+      name
+      id
+    }
+  }
+`;
 
 const LogItem = (data: any) => {
+  const [tagId, setTagId] = useState(-1);
+
   const { config } = usePrepareContractWrite({
     address: contracts.Log,
     abi: logABI,
     functionName: "addBiDirectionalRelationship",
-    args: [data.log.id, [contracts.Tag, 0]],
+    args: [data.log.id, [contracts.Tag, tagId]],
   });
 
   // @ts-ignore
@@ -23,6 +36,9 @@ const LogItem = (data: any) => {
 
   const ens = useENS(data.log?.author?.owner || "");
   const ensName = ens?.name || data.log?.author?.owner.slice(0, 6) || "";
+  const [isTagging, setIsTagging] = useState(false);
+
+  const [query] = useTagsQuery({});
 
   return (
     <div
@@ -37,12 +53,46 @@ const LogItem = (data: any) => {
         <TimeAgo datetime={data.log.created * 1000}></TimeAgo>
         <button
           onClick={() => {
-            console.log("clicked", write);
-            write?.();
+            setIsTagging(true);
           }}
         >
           tag
         </button>
+        {isTagging && (
+          <div>
+            <select
+              onChange={(e) => {
+                console.log("event", e);
+                setTagId(Number(e.target.value));
+                // console.log({ tagId });
+              }}
+            >
+              <option selected={true} key={0}></option>
+              {query.data?.tags.map((tag: any) => (
+                <option key={tag.id} value={tag.id}>
+                  {tag.name}
+                </option>
+              ))}
+            </select>
+            {tagId != -1 && (
+              <button
+                onClick={() => {
+                  console.log("clicked", write);
+                  write?.();
+                  setIsTagging(false);
+                }}
+              >
+                apply
+              </button>
+            )}
+          </div>
+        )}
+
+        <span className="text-gray-400">
+          {data.log.tags.map((tag: any) => {
+            return `#${tag.name}`;
+          })}
+        </span>
       </div>
       <div className="whitespace-pre-wrap">
         <Linkify>{data.log.data}</Linkify>

@@ -5,7 +5,11 @@ import Select from "react-select";
 import { useEffect, useState } from "react";
 import tagABI from "../../../contracts/out/Tag.sol/Tag.abi.json";
 import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 const options = [
   { value: "0x9afd94b0d13b3f360eacd44ea856b1da669cd15e", label: "Page" },
@@ -109,20 +113,19 @@ const NewLog = () => {
 const NewTag = () => {
   const { connector } = useWallet();
   const [name, setName] = useState("");
-  const { data, write } = useContractWrite({
-    addressOrName: contracts.Tag,
-    contractInterface: tagABI,
+
+  const { config } = usePrepareContractWrite({
+    address: contracts.Tag,
+    abi: tagABI,
     functionName: "create",
     args: [name, []],
   });
-  const txWait = useWaitForTransaction({ hash: data?.hash });
 
-  useEffect(() => {
-    if (txWait && txWait.status) {
-      console.log(data?.hash);
-      console.log("tx wait status", txWait.status);
-    }
-  }, [txWait]);
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   return (
     <>
@@ -148,7 +151,7 @@ const NewTag = () => {
           onClick={() => {
             if (!connector) throw new Error("Wallet Not Connected");
             if (name == "") throw new Error("Tag Name is Empty");
-            write();
+            write?.();
           }}
         >
           Write

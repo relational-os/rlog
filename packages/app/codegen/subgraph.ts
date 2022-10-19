@@ -1031,7 +1031,34 @@ export enum _SubgraphErrorPolicy_ {
 export type LatestLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LatestLogsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string } }> };
+export type LatestLogsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string }, readonly tags?: ReadonlyArray<{ readonly __typename?: 'Tag', readonly name: string, readonly id: string }> | null }> };
+
+export type LatestLogsByAuthorQueryVariables = Exact<{
+  authors?: InputMaybe<ReadonlyArray<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type LatestLogsByAuthorQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string }, readonly tags?: ReadonlyArray<{ readonly __typename?: 'Tag', readonly name: string, readonly id: string }> | null }> };
+
+export type LatestLogsByAuthorAndTagsQueryVariables = Exact<{
+  authors?: InputMaybe<ReadonlyArray<Scalars['String']> | Scalars['String']>;
+  tags?: InputMaybe<ReadonlyArray<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type LatestLogsByAuthorAndTagsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string }, readonly tags?: ReadonlyArray<{ readonly __typename?: 'Tag', readonly name: string, readonly id: string }> | null }> };
+
+export type LatestLogsByTagsQueryVariables = Exact<{
+  tags?: InputMaybe<ReadonlyArray<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type LatestLogsByTagsQuery = { readonly __typename?: 'Query', readonly logs: ReadonlyArray<{ readonly __typename?: 'Log', readonly id: string, readonly created: any, readonly data: string, readonly modified: any, readonly author: { readonly __typename?: 'Wallet', readonly id: string, readonly owner: string }, readonly tags?: ReadonlyArray<{ readonly __typename?: 'Tag', readonly name: string, readonly id: string }> | null }> };
+
+export type TagsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TagsQuery = { readonly __typename?: 'Query', readonly tags: ReadonlyArray<{ readonly __typename?: 'Tag', readonly name: string, readonly id: string }> };
 
 
 export const LatestLogsDocument = gql`
@@ -1045,10 +1072,107 @@ export const LatestLogsDocument = gql`
     created
     data
     modified
+    tags {
+      name
+      id
+    }
   }
 }
     `;
 
 export function useLatestLogsQuery(options?: Omit<Urql.UseQueryArgs<LatestLogsQueryVariables>, 'query'>) {
   return Urql.useQuery<LatestLogsQuery, LatestLogsQueryVariables>({ query: LatestLogsDocument, ...options });
+};
+export const LatestLogsByAuthorDocument = gql`
+    query LatestLogsByAuthor($authors: [String!]) {
+  logs(
+    first: 100
+    orderBy: created
+    orderDirection: desc
+    where: {author_in: $authors}
+  ) {
+    id
+    author {
+      id
+      owner
+    }
+    tags {
+      name
+      id
+    }
+    created
+    data
+    modified
+  }
+}
+    `;
+
+export function useLatestLogsByAuthorQuery(options?: Omit<Urql.UseQueryArgs<LatestLogsByAuthorQueryVariables>, 'query'>) {
+  return Urql.useQuery<LatestLogsByAuthorQuery, LatestLogsByAuthorQueryVariables>({ query: LatestLogsByAuthorDocument, ...options });
+};
+export const LatestLogsByAuthorAndTagsDocument = gql`
+    query LatestLogsByAuthorAndTags($authors: [String!], $tags: [String!]) {
+  logs(
+    first: 100
+    orderBy: created
+    orderDirection: desc
+    where: {author_in: $authors, tags_: {name_in: $tags}}
+  ) {
+    id
+    author {
+      id
+      owner
+    }
+    tags {
+      name
+      id
+    }
+    created
+    data
+    modified
+  }
+}
+    `;
+
+export function useLatestLogsByAuthorAndTagsQuery(options?: Omit<Urql.UseQueryArgs<LatestLogsByAuthorAndTagsQueryVariables>, 'query'>) {
+  return Urql.useQuery<LatestLogsByAuthorAndTagsQuery, LatestLogsByAuthorAndTagsQueryVariables>({ query: LatestLogsByAuthorAndTagsDocument, ...options });
+};
+export const LatestLogsByTagsDocument = gql`
+    query LatestLogsByTags($tags: [String!]) {
+  logs(
+    first: 100
+    orderBy: created
+    orderDirection: desc
+    where: {tags_: {name_in: $tags}}
+  ) {
+    id
+    author {
+      id
+      owner
+    }
+    tags {
+      name
+      id
+    }
+    created
+    data
+    modified
+  }
+}
+    `;
+
+export function useLatestLogsByTagsQuery(options?: Omit<Urql.UseQueryArgs<LatestLogsByTagsQueryVariables>, 'query'>) {
+  return Urql.useQuery<LatestLogsByTagsQuery, LatestLogsByTagsQueryVariables>({ query: LatestLogsByTagsDocument, ...options });
+};
+export const TagsDocument = gql`
+    query Tags {
+  tags(first: 100) {
+    name
+    id
+  }
+}
+    `;
+
+export function useTagsQuery(options?: Omit<Urql.UseQueryArgs<TagsQueryVariables>, 'query'>) {
+  return Urql.useQuery<TagsQuery, TagsQueryVariables>({ query: TagsDocument, ...options });
 };
