@@ -1,7 +1,15 @@
-import { Log, LogCreated, LogEdited, LogRemoved } from "../generated/Log/Log";
+import {
+  Log,
+  LogCreated,
+  LogEdited,
+  LogRemoved,
+  RelationshipAdded,
+} from "../generated/Log/Log";
 import { Log as LogEntity, Wallet } from "../generated/schema";
 import { Wallet as WalletContract } from "../generated/Tag/Wallet";
 import { getType } from "./parse";
+
+// function relationshipAdded(event: RelationshipAdded)
 
 export function handleLogCreated(event: LogCreated): void {
   const wallet = new Wallet(event.params.data.author.toHexString());
@@ -42,6 +50,23 @@ export function handleLogCreated(event: LogCreated): void {
   }
 
   wallet.save();
+  log.save();
+}
+
+export function handleRelationshipAdded(event: RelationshipAdded): void {
+  const log = LogEntity.load(event.params.id.toString());
+  if (log == null) {
+    // todo create one?
+    return;
+  }
+
+  const relationship = event.params.relationship;
+  const type = getType(relationship.addr.toHexString());
+
+  if (type == "tag") {
+    let tags = log.tags!.concat([relationship.id.toString()]);
+    log.tags = tags;
+  }
   log.save();
 }
 

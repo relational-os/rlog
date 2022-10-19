@@ -3,8 +3,9 @@ import {
   Tag as TagEntity,
   Wallet,
 } from "../generated/schema";
-import { Tag, TagCreated } from "../generated/Tag/Tag";
+import { RelationshipAdded, Tag, TagCreated } from "../generated/Tag/Tag";
 import { Wallet as WalletContract } from "../generated/Tag/Wallet";
+import { getType } from "./parse";
 
 export function handleTagCreated(event: TagCreated): void {
   const wallet = new Wallet(event.params.tag.author.toHexString());
@@ -25,5 +26,22 @@ export function handleTagCreated(event: TagCreated): void {
   tag.logs = [];
 
   wallet.save();
+  tag.save();
+}
+
+export function handleRelationshipAdded(event: RelationshipAdded): void {
+  const tag = TagEntity.load(event.params.id.toString());
+  if (tag == null) {
+    // todo create one?
+    return;
+  }
+
+  const relationship = event.params.relationship;
+  const type = getType(relationship.addr.toHexString());
+
+  if (type == "log") {
+    let logs = tag.logs!.concat([relationship.id.toString()]);
+    tag.logs = logs;
+  }
   tag.save();
 }

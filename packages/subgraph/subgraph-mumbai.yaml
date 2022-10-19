@@ -29,6 +29,8 @@ dataSources:
           handler: handleLogEdited
         - event: LogRemoved(uint256)
           handler: handleLogRemoved
+        - event: RelationshipAdded(uint256,(address,uint256))
+          handler: handleRelationshipAdded
       file: ./src/logMapping.ts
   - kind: ethereum
     name: Tag
@@ -51,6 +53,8 @@ dataSources:
       eventHandlers:
         - event: TagCreated(uint256,(uint256,address,uint256,string,(address,uint256)[]))
           handler: handleTagCreated
+        - event: RelationshipAdded(uint256,(address,uint256))
+          handler: handleRelationshipAdded
       file: ./src/tagMapping.ts
   - kind: ethereum
     name: Collection
@@ -73,4 +77,6 @@ dataSources:
       eventHandlers:
         - event: CollectionCreated(uint256,(uint256,address,uint256,string,(address,uint256)[]))
           handler: handleCollectionCreated
-      file: ./src/tagMapping.ts
+        - event: RelationshipAdded(uint256,(address,uint256))
+          handler: handleRelationshipAdded
+      file: ./src/collectionMapping.ts
