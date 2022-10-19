@@ -3,8 +3,8 @@ import Head from "next/head";
 import { useWallet } from "../useWallet";
 import Select from "react-select";
 import { useEffect, useState } from "react";
-import tagABI from "@site-demo/contracts/out/Tag.sol/Tag.abi.json";
-import contracts from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
+import tagABI from "../../../contracts/out/Tag.sol/Tag.abi.json";
+import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 const options = [

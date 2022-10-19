@@ -44,6 +44,7 @@ const HomePage: NextPage = () => {
     args: [logEntry, []],
   });
 
+  // @ts-ignore
   const { data, write } = useContractWrite(config);
 
   const { isLoading, isSuccess } = useWaitForTransaction({
