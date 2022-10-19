@@ -78,6 +78,34 @@ const NewLog = () => {
   );
 };
 
+// const [selectedOption, setSelectedOption] = useState(options[0]);
+// const [content, setContent] = useState("");
+// const [pageRelationshipId, setPageRelationshipId] = useState<number | null>(
+//   null
+// );
+
+// const { data, write } = useContractWrite({
+//   addressOrName: contracts.Page,
+//   contractInterface: pageABI,
+//   functionName: "create",
+//   args: [
+//     content,
+//     pageRelationshipId
+//       ? // TODO fix this being hardcoded
+//         [[selectedOption.value, pageRelationshipId]]
+//       : [],
+//   ],
+// });
+// const txWait = useWaitForTransaction({ hash: data?.hash });
+
+// useEffect(() => {
+//   if (txWait && txWait.status) {
+//     console.log("tx wait status", txWait.status);
+//   }
+// }, [txWait]);
+
+// console.log(pageRelationshipId, content, contracts.Page);
+
 const NewTag = () => {
   const { connector } = useWallet();
   const [name, setName] = useState("");
@@ -85,12 +113,13 @@ const NewTag = () => {
     addressOrName: contracts.Tag,
     contractInterface: tagABI,
     functionName: "create",
-    args: [name],
+    args: [name, []],
   });
   const txWait = useWaitForTransaction({ hash: data?.hash });
 
   useEffect(() => {
     if (txWait && txWait.status) {
+      console.log(data?.hash);
       console.log("tx wait status", txWait.status);
     }
   }, [txWait]);
