@@ -214,7 +214,7 @@ export type Log = {
   readonly modified: Scalars['BigInt'];
   readonly pages?: Maybe<ReadonlyArray<Page>>;
   readonly tags?: Maybe<ReadonlyArray<Tag>>;
-  readonly txHash?: Maybe<Scalars['String']>;
+  readonly txHash: Scalars['String'];
 };
 
 
@@ -1000,8 +1000,8 @@ export type _Block_ = {
   readonly hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   readonly number: Scalars['Int'];
-  /** Timestamp of the block if available, format depends on the chain */
-  readonly timestamp?: Maybe<Scalars['String']>;
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  readonly timestamp?: Maybe<Scalars['Int']>;
 };
 
 /** The type for the top-level _meta field */
@@ -1049,6 +1049,6 @@ export const LatestLogsDocument = gql`
 }
     `;
 
-export function useLatestLogsQuery(options: Omit<Urql.UseQueryArgs<LatestLogsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<LatestLogsQuery>({ query: LatestLogsDocument, ...options });
+export function useLatestLogsQuery(options?: Omit<Urql.UseQueryArgs<LatestLogsQueryVariables>, 'query'>) {
+  return Urql.useQuery<LatestLogsQuery, LatestLogsQueryVariables>({ query: LatestLogsDocument, ...options });
 };

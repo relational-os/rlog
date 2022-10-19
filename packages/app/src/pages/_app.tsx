@@ -13,14 +13,14 @@ import { EthereumProviders } from "../EthereumProviders";
 import Header from "../components/header";
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/cjpais/site",
+  url: "https://api.thegraph.com/subgraphs/name/relational-os/rlog",
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Example NFT</title>
+        <title>Ourlog</title>
       </Head>
       <GraphProvider value={graphClient}>
         <EthereumProviders>
