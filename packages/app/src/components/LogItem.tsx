@@ -85,7 +85,7 @@ const LogItem = (data: any) => {
           </div>
         )}
 
-        <span className="text-gray-400">
+        <span className="text-gray-400 mr-1">
           {data.log.tags.map((tag: any) => {
             return `#${tag.name}`;
           })}

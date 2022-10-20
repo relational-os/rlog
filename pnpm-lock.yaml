@@ -51,6 +51,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2
       react-linkify: 1.0.0-alpha
+      react-mentions: ^4.4.7
       react-select: ^5.4.0
       react-toastify: ^9.0.4
       tailwindcss: ^3.0.5
@@ -72,6 +73,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-linkify: 1.0.0-alpha
+      react-mentions: 4.4.7_sfoxds7t5ydpegc3knd667wn6m
       react-select: 5.5.2_ku44vyaqhfvsakybl42wrekosu
       react-toastify: 9.0.8_sfoxds7t5ydpegc3knd667wn6m
       timeago-react: 3.0.5_react@17.0.2
@@ -90,7 +92,7 @@ importers:
       eslint-config-next: 12.3.1_typescript@4.8.4
       eslint-plugin-react-hooks: 4.6.0
       postcss: 8.4.18
-      tailwindcss: 3.1.8
+      tailwindcss: 3.1.8_postcss@8.4.18
       typescript: 4.8.4
 
   packages/contracts:
@@ -774,6 +776,12 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.10
+
+  /@babel/runtime/7.4.5:
+    resolution: {integrity: sha512-TuI4qpWZP6lGOGIuGWtp9sPluqYICmbk8T/1vpSysqJxRPkudh/ofFWyqdcMsDf2s7KvDL4/YHgKyvcS3g9CJQ==}
+    dependencies:
+      regenerator-runtime: 0.13.10
+    dev: false
 
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
@@ -4799,8 +4807,8 @@ packages:
     resolution: {integrity: sha512-lVjqCSCIAUDZPAZIeyM125HXfNvOmYYInciphNrLrylUtKyW66meAjSPXWchKVzoIYZx69TPnAepVSSkeawoIw==}
     engines: {node: '>= 0.8'}
     dependencies:
-      debug: 3.2.7
       JSONStream: 1.3.2
+      debug: 3.2.7
       readable-stream: 1.0.34
       split-ca: 1.0.1
     transitivePeerDependencies:
@@ -7319,11 +7327,11 @@ packages:
       '@types/express-serve-static-core': 4.17.28
       '@types/lodash': 4.14.182
       '@types/node': 12.20.55
+      JSONStream: 1.3.5
       commander: 2.20.3
       es6-promisify: 5.0.0
       eyes: 0.1.8
       json-stringify-safe: 5.0.1
-      JSONStream: 1.3.5
       lodash: 4.17.21
       uuid: 3.4.0
     dev: false
@@ -7336,13 +7344,13 @@ packages:
       '@types/connect': 3.4.35
       '@types/node': 12.20.55
       '@types/ws': 7.4.7
+      JSONStream: 1.3.5
       commander: 2.20.3
       delay: 5.0.0
       es6-promisify: 5.0.0
       eyes: 0.1.8
       isomorphic-ws: 4.0.1_ws@7.5.9
       json-stringify-safe: 5.0.1
-      JSONStream: 1.3.5
       lodash: 4.17.21
       uuid: 8.3.2
       ws: 7.5.9
@@ -9164,6 +9172,20 @@ packages:
       tlds: 1.233.0
     dev: false
 
+  /react-mentions/4.4.7_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-VNriu2h/uOB+RS0mwZgPG2Vf+UtdDvRh5zbXa2TNc1WqacKuNDgTdhlbo9LEOZRBxRzIeTUYQmYJ7p9M9rDHqQ==}
+    peerDependencies:
+      react: '>=16.8.3'
+      react-dom: '>=16.8.3'
+    dependencies:
+      '@babel/runtime': 7.4.5
+      invariant: 2.2.4
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      substyle: 9.4.1_react@17.0.2
+    dev: false
+
   /react-native-url-polyfill/1.3.0:
     resolution: {integrity: sha512-w9JfSkvpqqlix9UjDvJjm1EjSt652zVQ6iwCIj1cVVkwXf4jQhQgTNXY6EVTwuAmUjg6BC6k9RHCBynoLFo3IQ==}
     peerDependencies:
@@ -10080,6 +10102,16 @@ packages:
     resolution: {integrity: sha512-xGPXiFVl4YED9Jh7Euv2V220mriG9u4B2TA6Ybjc1catrstKD2PpIdU3U0RKpkVBC2EhmL/F0sPCr9vrFTNRag==}
     dev: false
 
+  /substyle/9.4.1_react@17.0.2:
+    resolution: {integrity: sha512-VOngeq/W1/UkxiGzeqVvDbGDPM8XgUyJVWjrqeh+GgKqspEPiLYndK+XRcsKUHM5Muz/++1ctJ1QCF/OqRiKWA==}
+    peerDependencies:
+      react: '>=16.8.3'
+    dependencies:
+      '@babel/runtime': 7.19.4
+      invariant: 2.2.4
+      react: 17.0.2
+    dev: false
+
   /superstruct/0.14.2:
     resolution: {integrity: sha512-nPewA6m9mR3d6k7WkZ8N8zpTWfenFH3q9pA2PkuiZxINr9DKB2+40wEQf0ixn8VaGuJ78AB6iWOtStI+/4FKZQ==}
     dev: false
@@ -10140,10 +10172,12 @@ packages:
       string-width: 3.1.0
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.18:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
