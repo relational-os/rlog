@@ -29,6 +29,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         </EthereumProviders>
       </GraphProvider>
       <ToastContainer position="bottom-right" draggable={false} />
+      <style jsx global>{`
+        body {
+          background-color: #fafafa;
+        }
+      `}</style>
     </>
   );
 };

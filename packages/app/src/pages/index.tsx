@@ -132,24 +132,13 @@ const HomePage: NextPage = () => {
     <>
       <div className="container max-w-2xl mx-auto">
         <div className="flex flex-col">
-          <span className="bg-green-400">
-            searching authors:
-            <pre>{JSON.stringify(searchQueryAuthors, null, 2)}</pre>
-            tags: <pre>{JSON.stringify(searchQueryTags, null, 2)}</pre>
-          </span>
-          <button
-            onClick={() => {
-              setSearchQueryAuthors([]);
-              setSearchQueryTags([]);
-            }}
-          >
-            clear filters
-          </button>
-          <div className="border border-1">
-            <span>@🔎</span>
+           
+          <div className="flex flex-row my-3">
             <input
+              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1"
               onChange={(e) => setSearchQueryAuthor(e.target.value)}
               value={searchQueryAuthor}
+              placeholder="@"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setSearchQueryAuthors([
@@ -161,13 +150,11 @@ const HomePage: NextPage = () => {
                 }
               }}
             ></input>
-          </div>
-
-          <div className="border border-1">
-            <span>#🔎</span>
             <input
+              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1"
               onChange={(e) => setSearchQueryTag(e.target.value)}
               value={searchQueryTag}
+              placeholder="#"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setSearchQueryTags([...searchQueryTags, searchQueryTag]);
@@ -178,50 +165,74 @@ const HomePage: NextPage = () => {
             ></input>
           </div>
 
-          <span>eth.ens</span>
-          <MentionsInput
-            value={logEntry}
-            // @ts-ignore
-            onChange={(event, newValue, newPlainTextValue, mentions) => {
-              // console.log({ event });
-              // console.log({ newValue });
-              // console.log({ newPlainTextValue });
-              // console.log({ mentions });
-              setLogEntry(event.target.value);
-              setPlaintextLogEntry(newPlainTextValue);
-            }}
-            onBlur={parseMentions}
-          >
-            <Mention trigger="@" data={[{ id: 1, display: "@bob" }]} />
-            <Mention trigger="#" data={formattedTags} />
-          </MentionsInput>
-
-          <div className="">
-            <button className="pr-2">cancel</button>
-            <button
-              // disabled={!write}
-              onClick={() => {
-                parseMentions();
-                write?.();
-                // todo: change to disabled state, clear after tx confirm or something
-                // todo: update query after tx confirm
+          <div className="border-solid border-2 border-gray-100 p-4 my-4 rounded-xl bg-white">
+            <span>eth.ens</span>
+  
+            <MentionsInput className="border-b-2 border-gray-200 my-2 h-24"
+              value={logEntry}
+              singleLine={false}
+              // @ts-ignore
+              onChange={(event, newValue, newPlainTextValue, mentions) => {
+                // console.log({ event });
+                // console.log({ newValue });
+                // console.log({ newPlainTextValue });
+                // console.log({ mentions });
+                setLogEntry(event.target.value);
+                setPlaintextLogEntry(newPlainTextValue);
               }}
+              onBlur={parseMentions}
             >
-              {isLoading ? "saving..." : "save"}
-            </button>
-            {isSuccess && (
-              <div>
-                Successfully created your log!
+              <Mention trigger="@" data={[{ id: 1, display: "@bob" }]} />
+              <Mention trigger="#" data={formattedTags} />
+            </MentionsInput>
+
+            <div className="">
+              <button className="mt-2 px-3 py-1 bg-blue-100 rounded-md text-blue-500"
+                // disabled={!write}
+                onClick={() => {
+                  parseMentions();
+                  write?.();
+                  // todo: change to disabled state, clear after tx confirm or something
+                  // todo: update query after tx confirm
+                }}
+              >
+                {isLoading ? "Posting..." : "Post"}
+              </button>
+              {isSuccess && (
                 <div>
-                  <a href={`https://mumbai.polygonscan.com/tx/${data?.hash}`}>
-                    View on Polygonscan
-                  </a>
+                  Successfully created your log!
+                  <div>
+                    <a href={`https://mumbai.polygonscan.com/tx/${data?.hash}`}>
+                      View on Polygonscan
+                    </a>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
+
         <h1 className="text-xl font-bold pb-4">Log</h1>
+
+        <span className="my-2">
+            {searchQueryTags.map((tag) => {
+              return <span className="px-2">{tag}</span>
+            })}
+            {searchQueryAuthors.map((author) => {
+              return <span className="px-2">{author}</span>
+            })}
+          </span>
+          
+          {(searchQueryTags.length > 0 || searchQueryAuthors.length > 0) && (
+            <button className="mt-2 px-3 py-1 bg-gray-200 rounded-md text-gray-700 "
+              onClick={() => {
+                setSearchQueryAuthors([]);
+                setSearchQueryTags([]);
+              }}
+            >
+              clear
+            </button>)}
+
         {pageState == "queryAuthors" && (
           <FeedAuthors searchQueryAuthors={searchQueryAuthors}></FeedAuthors>
         )}
