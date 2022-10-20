@@ -1,9 +1,6 @@
 import React from "react";
 import { gql } from "urql";
-import {
-  useLatestLogsByAuthorQuery,
-  useLatestLogsByTagsQuery,
-} from "../../codegen/subgraph";
+import { useLatestLogsByTagsQuery } from "../../codegen/subgraph";
 import LogItem from "./LogItem";
 
 gql`

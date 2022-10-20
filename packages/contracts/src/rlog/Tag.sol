@@ -19,20 +19,29 @@ contract Tag is Relational {
 
     function create(string memory name, Relationship[] memory relationships)
         public
+        returns (uint256 id)
     {
-        TagContents storage tag = tags[tagCount];
+        // fetch id
+        id = tagCount;
 
-        tag.id = tagCount;
+        // get storage slot for new tag
+        TagContents storage tag = tags[id];
+
+        // set the new data for the tag
+        tag.id = id;
         tag.author = msg.sender;
         tag.createdTimestamp = block.timestamp;
         tag.name = name;
 
+        // add relationships to the tag
         for (uint256 i = 0; i < relationships.length; i++) {
             addBiDirectionalRelationship(tagCount, relationships[i]);
         }
 
         emit TagCreated(tagCount, tag);
         tagCount++;
+
+        return id;
     }
 
     function addBiDirectionalRelationship(

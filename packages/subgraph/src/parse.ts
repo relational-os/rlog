@@ -4,9 +4,9 @@ export function getType(addr: string): string {
   const a = addr.toLowerCase();
   if (a == "0xEc1F9236E395A9C0B22eE79aEFB570c999864c6A".toLowerCase())
     return "collection";
-  if (a == "0x901a7da3240b2b60181ec6a0dc58cb05f0f20dce".toLowerCase())
+  if (a == "0xdaD0D757C142bE18BEc9c1f57A606AAE737d9E35".toLowerCase())
     return "tag";
-  if (a == "0xb8A4C0Fb6Fb8028720c4272e70bFF3dDa94A5aA8".toLowerCase())
+  if (a == "0x306459A7599dabd032ECb31c0d6F9fE277830297".toLowerCase())
     return "log";
   return "";
 }

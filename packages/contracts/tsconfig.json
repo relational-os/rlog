@@ -1,5 +1,12 @@
 {
   "include": ["./types"],
+  "paths": {
+    "@contracts/*": ["../contracts/*"]
+    // "@server/*": ["src/server/*"],
+    // "@constants/*": ["src/constants/*"],
+    // "@sdk/*": ["src/sdk/*"],
+    // "@static/*": ["public/static/*"],
+  },
   "compilerOptions": {
     "lib": ["esnext"],
     "target": "es6",
@@ -8,5 +15,5 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true
-  },
+  }
 }

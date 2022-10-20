@@ -315,7 +315,7 @@ export interface Log extends BaseContract {
       data: PromiseOrValue<string>,
       relationships: Relational.RelationshipStruct[],
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     edit(
       id: PromiseOrValue<BigNumberish>,

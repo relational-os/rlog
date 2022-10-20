@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { getWallets } from "../../features/wallet/manage";
 import { useWallet } from "../../useWallet";

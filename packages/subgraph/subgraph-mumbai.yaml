@@ -7,7 +7,7 @@ dataSources:
     network: mumbai
     source:
       abi: Log
-      address: "0xb8A4C0Fb6Fb8028720c4272e70bFF3dDa94A5aA8"
+      address: "0x306459A7599dabd032ECb31c0d6F9fE277830297"
       startBlock: 28689566
     mapping:
       kind: ethereum/events
@@ -37,7 +37,7 @@ dataSources:
     network: mumbai
     source:
       abi: Tag
-      address: "0x901A7da3240B2b60181EC6a0Dc58cB05f0F20DcE"
+      address: "0xdaD0D757C142bE18BEc9c1f57A606AAE737d9E35"
       startBlock: 28689566
     mapping:
       kind: ethereum/events

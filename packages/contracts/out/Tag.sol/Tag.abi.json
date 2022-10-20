@@ -174,7 +174,13 @@
       }
     ],
     "name": "create",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },

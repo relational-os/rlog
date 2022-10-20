@@ -22,22 +22,31 @@ contract Log is Relational {
 
     function create(string memory data, Relationship[] memory relationships)
         public
+        returns (uint256 id)
     {
-        LogContents storage log = logs[logCount];
+        // fetch id
+        id = logCount;
 
-        log.id = logCount;
+        // get storage slot for new tag
+        LogContents storage log = logs[id];
+
+        // set the new data for the tag
+        log.id = id;
         log.author = msg.sender;
         log.createdTimestamp = block.timestamp;
         log.modifiedTimestamp = block.timestamp;
         log.data = data;
 
+        // add relationships to the tag
         for (uint256 i = 0; i < relationships.length; i++) {
-            addBiDirectionalRelationship(logCount, relationships[i]);
+            addBiDirectionalRelationship(id, relationships[i]);
         }
 
         emit LogCreated(log.id, log);
 
         logCount++;
+
+        return id;
     }
 
     // TODO need to add errors, and probably add relationships too.

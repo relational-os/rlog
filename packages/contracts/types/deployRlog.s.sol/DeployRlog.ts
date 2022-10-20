@@ -27,6 +27,7 @@ export interface DeployRlogInterface extends utils.Interface {
     "IS_SCRIPT()": FunctionFragment;
     "collectionContract()": FunctionFragment;
     "logContract()": FunctionFragment;
+    "managerContract()": FunctionFragment;
     "run()": FunctionFragment;
     "tagContract()": FunctionFragment;
     "vm()": FunctionFragment;
@@ -37,6 +38,7 @@ export interface DeployRlogInterface extends utils.Interface {
       | "IS_SCRIPT"
       | "collectionContract"
       | "logContract"
+      | "managerContract"
       | "run"
       | "tagContract"
       | "vm"
@@ -49,6 +51,10 @@ export interface DeployRlogInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "logContract",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "managerContract",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "run", values?: undefined): string;
@@ -65,6 +71,10 @@ export interface DeployRlogInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "logContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "managerContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "run", data: BytesLike): Result;
@@ -110,6 +120,8 @@ export interface DeployRlog extends BaseContract {
 
     logContract(overrides?: CallOverrides): Promise<[string]>;
 
+    managerContract(overrides?: CallOverrides): Promise<[string]>;
+
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -124,6 +136,8 @@ export interface DeployRlog extends BaseContract {
   collectionContract(overrides?: CallOverrides): Promise<string>;
 
   logContract(overrides?: CallOverrides): Promise<string>;
+
+  managerContract(overrides?: CallOverrides): Promise<string>;
 
   run(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -140,6 +154,8 @@ export interface DeployRlog extends BaseContract {
 
     logContract(overrides?: CallOverrides): Promise<string>;
 
+    managerContract(overrides?: CallOverrides): Promise<string>;
+
     run(overrides?: CallOverrides): Promise<void>;
 
     tagContract(overrides?: CallOverrides): Promise<string>;
@@ -155,6 +171,8 @@ export interface DeployRlog extends BaseContract {
     collectionContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     logContract(overrides?: CallOverrides): Promise<BigNumber>;
+
+    managerContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -173,6 +191,8 @@ export interface DeployRlog extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     logContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    managerContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     run(
       overrides?: Overrides & { from?: PromiseOrValue<string> }

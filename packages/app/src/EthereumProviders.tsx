@@ -10,13 +10,13 @@ export const targetChainId = parseInt(process.env.CHAIN_ID!) || 80001;
 export const { chains, provider, webSocketProvider } = configureChains(
   [chain.polygonMumbai],
   [
-    alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
     publicProvider(),
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "CJ's Site",
+  appName: "OurLog",
   chains,
 });
 

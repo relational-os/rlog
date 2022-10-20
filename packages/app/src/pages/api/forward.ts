@@ -1,11 +1,9 @@
 import { NextApiHandler } from "next";
-import { BigNumber, BigNumberish, BytesLike, utils, Wallet } from "ethers";
-import {
-  JsonRpcProvider,
-  StaticJsonRpcProvider,
-} from "@ethersproject/providers";
-import { Wallet__factory } from "@site-demo/contracts/types";
-import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
+import { BigNumberish, BytesLike, Wallet } from "ethers";
+import { JsonRpcProvider } from "@ethersproject/providers";
+
+import { Wallet__factory } from "../../../../contracts/types";
+import deploys from "../../../../contracts/deploys/polygon-mumbai/all.json";
 import { staticLogContract } from "../../contracts";
 import { polygonProvider } from "../../providers";
 import { parseUnits } from "ethers/lib/utils";

@@ -5,6 +5,7 @@ export * as deployRlogSSol from "./deployRlog.s.sol";
 export { Collection__factory } from "./Collection__factory";
 export { Initializable__factory } from "./Initializable__factory";
 export { Log__factory } from "./Log__factory";
+export { Manager__factory } from "./Manager__factory";
 export { Ownable__factory } from "./Ownable__factory";
 export { Relational__factory } from "./Relational__factory";
 export { Tag__factory } from "./Tag__factory";

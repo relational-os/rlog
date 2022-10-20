@@ -37,6 +37,10 @@ export function handleLogCreated(event: LogCreated): void {
     const relationship = event.params.data.relationships[i];
     const type = getType(relationship.addr.toHexString());
 
+    if (type == "tag") {
+      let tags = log.tags!.concat([relationship.id.toString()]);
+      log.tags = tags;
+    }
     // TODO: figure out how to handle arrays. (this might be a thing we can use the graphql file for)
     // if (type == "page") {
     //   log.page = relationship.id.toString();

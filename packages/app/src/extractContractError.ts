@@ -1,4 +1,4 @@
-import { Log__factory, Tag__factory } from "@site-demo/contracts/types";
+import { Log__factory, Tag__factory } from "../../contracts/types";
 
 const logInterfsce = Log__factory.createInterface();
 const tagInterface = Tag__factory.createInterface();

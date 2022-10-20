@@ -31,8 +31,8 @@ import {
   Log__factory,
   Tag__factory,
   WalletFactory__factory,
-} from "@site-demo/contracts/types";
-import deploys from "@site-demo/contracts/deploys/polygon-mumbai/all.json";
+} from "../../contracts/types";
+import deploys from "../../contracts/deploys/polygon-mumbai/all.json";
 
 import { Provider } from "@ethersproject/providers";
 import { polygonProvider } from "./providers";

@@ -252,7 +252,7 @@ export interface Tag extends BaseContract {
       name: PromiseOrValue<string>,
       relationships: Relational.RelationshipStruct[],
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     tagCount(overrides?: CallOverrides): Promise<BigNumber>;
 

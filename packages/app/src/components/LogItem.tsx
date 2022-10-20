@@ -3,12 +3,9 @@ import React, { useState } from "react";
 import TimeAgo from "timeago-react";
 import { useENS } from "../useENS";
 import Linkify from "react-linkify";
-import { useWallet } from "../useWallet";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
 import logABI from "../../../contracts/out/Log.sol/Log.abi.json";
-import { BigNumber } from "ethers";
-import { getAddress } from "@ethersproject/address";
 import { gql } from "urql";
 import { useTagsQuery } from "../../codegen/subgraph";
 

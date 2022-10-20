@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WalletFactory__factory = exports.Wallet__factory = exports.Tag__factory = exports.Relational__factory = exports.Ownable__factory = exports.Log__factory = exports.Initializable__factory = exports.DeployRlog__factory = exports.Collection__factory = exports.factories = void 0;
+exports.WalletFactory__factory = exports.Wallet__factory = exports.Tag__factory = exports.Relational__factory = exports.Ownable__factory = exports.Manager__factory = exports.Log__factory = exports.Initializable__factory = exports.DeployRlog__factory = exports.Collection__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
 var Collection__factory_1 = require("./factories/Collection__factory");
 Object.defineProperty(exports, "Collection__factory", { enumerable: true, get: function () { return Collection__factory_1.Collection__factory; } });
@@ -33,6 +33,8 @@ var Initializable__factory_1 = require("./factories/Initializable__factory");
 Object.defineProperty(exports, "Initializable__factory", { enumerable: true, get: function () { return Initializable__factory_1.Initializable__factory; } });
 var Log__factory_1 = require("./factories/Log__factory");
 Object.defineProperty(exports, "Log__factory", { enumerable: true, get: function () { return Log__factory_1.Log__factory; } });
+var Manager__factory_1 = require("./factories/Manager__factory");
+Object.defineProperty(exports, "Manager__factory", { enumerable: true, get: function () { return Manager__factory_1.Manager__factory; } });
 var Ownable__factory_1 = require("./factories/Ownable__factory");
 Object.defineProperty(exports, "Ownable__factory", { enumerable: true, get: function () { return Ownable__factory_1.Ownable__factory; } });
 var Relational__factory_1 = require("./factories/Relational__factory");

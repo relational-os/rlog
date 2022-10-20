@@ -2,14 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useWallet } from "../useWallet";
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import tagABI from "../../../contracts/out/Tag.sol/Tag.abi.json";
 import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 
 const options = [
   { value: "0x9afd94b0d13b3f360eacd44ea856b1da669cd15e", label: "Page" },
@@ -121,11 +117,8 @@ const NewTag = () => {
     args: [name, []],
   });
 
+  // @ts-ignore
   const { data, write } = useContractWrite(config);
-
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  });
 
   return (
     <>
@@ -139,15 +132,6 @@ const NewTag = () => {
         <button
           disabled={!connector || name === ""}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-          // onClick={async () => {
-          //   if (!connector) throw new Error("Wallet Not Connected");
-          //   if (name == "") throw new Error("Tag Name is Empty");
-
-          //   const signer = await connector.getSigner();
-
-          //   const tx = await tagContract.connect(signer).create(name);
-          //   console.log(tx);
-          // }}
           onClick={() => {
             if (!connector) throw new Error("Wallet Not Connected");
             if (name == "") throw new Error("Tag Name is Empty");

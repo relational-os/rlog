@@ -40,6 +40,19 @@
   },
   {
     "inputs": [],
+    "name": "managerContract",
+    "outputs": [
+      {
+        "internalType": "contract Manager",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "run",
     "outputs": [],
     "stateMutability": "nonpayable",
