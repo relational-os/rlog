@@ -18,6 +18,7 @@
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.0",
     "@rainbow-me/rainbowkit": "^0.4.1",
+    "@types/react-mentions": "^4.1.7",
     "classnames": "^2.3.1",
     "ethers": "^5.5.2",
     "graphql": "^16.2.0",

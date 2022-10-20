@@ -39,6 +39,7 @@ importers:
       '@types/node': 17.0.0
       '@types/react': 17.0.37
       '@types/react-linkify': ^1.0.1
+      '@types/react-mentions': ^4.1.7
       autoprefixer: ^10.4.0
       classnames: ^2.3.1
       eslint-config-next: ^12.1.6
@@ -65,6 +66,7 @@ importers:
       '@ethersproject/contracts': 5.7.0
       '@ethersproject/providers': 5.7.1
       '@rainbow-me/rainbowkit': 0.4.8_aa2rond3ikupvfvxgqd3wmkxu4
+      '@types/react-mentions': 4.1.7
       classnames: 2.3.2
       ethers: 5.7.1
       graphql: 16.6.0
@@ -2749,6 +2751,12 @@ packages:
     dependencies:
       '@types/react': 17.0.37
     dev: true
+
+  /@types/react-mentions/4.1.7:
+    resolution: {integrity: sha512-f9r5AAYZdF55E1kPVIFTlLgaXGCD26Pgq21Owd70s7LdPV5mY3v4tzklG33WpjSXnZ1SfpzUPbWc/jet9mcASQ==}
+    dependencies:
+      '@types/react': 17.0.37
+    dev: false
 
   /@types/react-transition-group/4.4.5:
     resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
