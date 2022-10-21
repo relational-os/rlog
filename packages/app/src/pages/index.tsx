@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -18,6 +18,8 @@ import FeedAll from "../components/FeedAll";
 import { MentionsInput, Mention } from "react-mentions";
 
 import { gql } from "urql";
+import { AppContext } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AppContext";
+import { OurLogContext } from "../pages/_app";
 
 gql`
   query Tags {
@@ -29,6 +31,7 @@ gql`
 `;
 
 const HomePage: NextPage = () => {
+  const context = useContext(OurLogContext);
   const [logEntry, setLogEntry] = useState("");
   const [plaintextLogEntry, setPlaintextLogEntry] = useState("");
   const [newTags, setNewTags] = useState<any>([]);
@@ -56,9 +59,7 @@ const HomePage: NextPage = () => {
     hash: data?.hash,
   });
 
-  const [searchQueryAuthors, setSearchQueryAuthors] = useState<string[]>([]);
   const [searchQueryAuthor, setSearchQueryAuthor] = useState("");
-  const [searchQueryTags, setSearchQueryTags] = useState<string[]>([]);
   const [searchQueryTag, setSearchQueryTag] = useState("");
   const [tagsResponse] = useTagsQuery({});
   const [formattedTags, setFormattedTags] = useState<any>();
@@ -70,14 +71,28 @@ const HomePage: NextPage = () => {
   >("queryAll");
 
   const calculatePageState = () => {
-    if (searchQueryAuthors.length > 0 && searchQueryTags.length > 0) {
+    console.log("context: " + context.state.queryAuthors.length);
+    if (
+      context.state.queryAuthors.length > 0 &&
+      context.state.queryTags.length > 0
+    ) {
       setPageState("queryAuthorsAndTags");
-    } else if (searchQueryAuthors.length > 0 && searchQueryTags.length == 0) {
+      console.log("page state: queryAuthorsAndTags");
+    } else if (
+      context.state.queryAuthors.length > 0 &&
+      context.state.queryTags.length == 0
+    ) {
       setPageState("queryAuthors");
-    } else if (searchQueryAuthors.length == 0 && searchQueryTags.length > 0) {
+      console.log("page state: queryAuthors");
+    } else if (
+      context.state.queryAuthors.length == 0 &&
+      context.state.queryTags.length > 0
+    ) {
       setPageState("queryTags");
+      console.log("page state: queryTags");
     } else {
       setPageState("queryAll");
+      console.log("page state: queryAll");
     }
   };
 
@@ -87,7 +102,7 @@ const HomePage: NextPage = () => {
 
   useEffect(() => {
     calculatePageState();
-  }, [searchQueryAuthors, searchQueryTags]);
+  }, [context.state.queryAuthors, context.state.queryTags]);
 
   useEffect(() => {
     setFormattedTags(
@@ -132,7 +147,6 @@ const HomePage: NextPage = () => {
     <>
       <div className="container max-w-2xl mx-auto">
         <div className="flex flex-col">
-           
           <div className="flex flex-row my-3">
             <input
               className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1"
@@ -141,10 +155,14 @@ const HomePage: NextPage = () => {
               placeholder="@"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  setSearchQueryAuthors([
-                    ...searchQueryAuthors,
-                    searchQueryAuthor.toLowerCase(),
-                  ]);
+                  context.setState({
+                    queryAuthors: [
+                      ...context.state.queryAuthors,
+                      searchQueryAuthor.toLowerCase(),
+                    ],
+                    queryTags: context.state.queryTags,
+                  });
+
                   setSearchQueryAuthor("");
                   calculatePageState();
                 }
@@ -157,7 +175,10 @@ const HomePage: NextPage = () => {
               placeholder="#"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  setSearchQueryTags([...searchQueryTags, searchQueryTag]);
+                  context.setState({
+                    queryAuthors: context.state.queryAuthors,
+                    queryTags: [...context.state.queryTags, searchQueryTag],
+                  });
                   setSearchQueryTag("");
                   calculatePageState();
                 }
@@ -167,8 +188,9 @@ const HomePage: NextPage = () => {
 
           <div className="border-solid border-2 border-gray-100 p-4 my-4 rounded-xl bg-white">
             <span>eth.ens</span>
-  
-            <MentionsInput className="border-b-2 border-gray-200 my-2 h-24"
+
+            <MentionsInput
+              className="border-b-2 border-gray-200 my-2 h-24"
               value={logEntry}
               singleLine={false}
               // @ts-ignore
@@ -187,7 +209,8 @@ const HomePage: NextPage = () => {
             </MentionsInput>
 
             <div className="">
-              <button className="mt-2 px-3 py-1 bg-blue-100 rounded-md text-blue-500"
+              <button
+                className="mt-2 px-3 py-1 bg-blue-100 rounded-md text-blue-500"
                 // disabled={!write}
                 onClick={() => {
                   parseMentions();
@@ -215,34 +238,38 @@ const HomePage: NextPage = () => {
         <h1 className="text-xl font-bold pb-4">Log</h1>
 
         <span className="my-2">
-            {searchQueryTags.map((tag) => {
-              return <span className="px-2">{tag}</span>
-            })}
-            {searchQueryAuthors.map((author) => {
-              return <span className="px-2">{author}</span>
-            })}
-          </span>
-          
-          {(searchQueryTags.length > 0 || searchQueryAuthors.length > 0) && (
-            <button className="mt-2 px-3 py-1 bg-gray-200 rounded-md text-gray-700 "
-              onClick={() => {
-                setSearchQueryAuthors([]);
-                setSearchQueryTags([]);
-              }}
-            >
-              clear
-            </button>)}
+          {context.state.queryTags.map((tag) => {
+            return <span className="px-2">{tag}</span>;
+          })}
+          {context.state.queryAuthors.map((author) => {
+            return <span className="px-2">{author}</span>;
+          })}
+        </span>
+
+        {(context.state.queryTags.length > 0 ||
+          context.state.queryAuthors.length > 0) && (
+          <button
+            className="mt-2 px-3 py-1 bg-gray-200 rounded-md text-gray-700 "
+            onClick={() => {
+              context.setState({ queryAuthors: [], queryTags: [] });
+            }}
+          >
+            clear
+          </button>
+        )}
 
         {pageState == "queryAuthors" && (
-          <FeedAuthors searchQueryAuthors={searchQueryAuthors}></FeedAuthors>
+          <FeedAuthors
+            searchQueryAuthors={context.state.queryAuthors}
+          ></FeedAuthors>
         )}
         {pageState == "queryTags" && (
-          <FeedTags searchQueryTags={searchQueryTags}></FeedTags>
+          <FeedTags searchQueryTags={context.state.queryTags}></FeedTags>
         )}
         {pageState == "queryAuthorsAndTags" && (
           <FeedAuthorsAndTags
-            searchQueryAuthors={searchQueryAuthors}
-            searchQueryTags={searchQueryTags}
+            searchQueryAuthors={context.state.queryAuthors}
+            searchQueryTags={context.state.queryTags}
           ></FeedAuthorsAndTags>
         )}
         {pageState == "queryAll" && <FeedAll></FeedAll>}

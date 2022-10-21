@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import { useState, createContext } from "react";
 import {
   createClient as createGraphClient,
   Provider as GraphProvider,
@@ -16,9 +17,18 @@ export const graphClient = createGraphClient({
   url: "https://api.thegraph.com/subgraphs/name/relational-os/rlog",
 });
 
+type OurLogContextState = { queryAuthors: string[]; queryTags: string[] };
+const ourLogContextDefault = {
+  state: { queryAuthors: [], queryTags: [] },
+  setState: (state: OurLogContextState) => {},
+};
+
+export const OurLogContext = createContext(ourLogContextDefault);
+
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [state, setState] = useState(ourLogContextDefault.state);
   return (
-    <>
+    <OurLogContext.Provider value={{ state, setState }}>
       <Head>
         <title>Ourlog</title>
       </Head>
@@ -34,7 +44,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           background-color: #fafafa;
         }
       `}</style>
-    </>
+    </OurLogContext.Provider>
   );
 };
 

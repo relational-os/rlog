@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { OurLogContext } from "../pages/_app";
 import TimeAgo from "timeago-react";
 import { useENS } from "../useENS";
 import Linkify from "react-linkify";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
 import logABI from "../../../contracts/out/Log.sol/Log.abi.json";
-import { gql } from "urql";
+import { Context, gql } from "urql";
 import { useTagsQuery } from "../../codegen/subgraph";
 
 gql`
@@ -20,6 +21,7 @@ gql`
 
 const LogItem = (data: any) => {
   const [tagId, setTagId] = useState(-1);
+  const context = useContext(OurLogContext);
 
   const { config } = usePrepareContractWrite({
     address: contracts.Log,
@@ -38,21 +40,28 @@ const LogItem = (data: any) => {
   const [query] = useTagsQuery({});
 
   return (
-    
     <div
       className="flex flex-col space-x-4 rounded-2xl py-1 px-3"
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
-
       <div className="flex gap-2 text-sm">
         <Link
           href={`https://mumbai.polygonscan.com/address/${data.log?.author?.owner}`}
         >
-          {<span className="u-color-1"
-                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
-          >{ensName}</span>}</Link>
+          {
+            <span
+              className="u-color-1"
+              style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+            >
+              {ensName}
+            </span>
+          }
+        </Link>
         {"-"}
-        <TimeAgo className="timeAgo" datetime={data.log.created * 1000}></TimeAgo>
+        <TimeAgo
+          className="timeAgo"
+          datetime={data.log.created * 1000}
+        ></TimeAgo>
         <button
           onClick={() => {
             setIsTagging(true);
@@ -92,16 +101,27 @@ const LogItem = (data: any) => {
 
         <span className="text-gray-400 mr-1 u-color-2">
           {data.log.tags.map((tag: any) => {
-            return <span className="ml-1 u-color-2"
-            style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
-            >#{tag.name}</span>
+            return (
+              <button
+                className="ml-1 u-color-2"
+                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+                onClick={() => {
+                  context.setState({
+                    queryAuthors: context.state.queryAuthors,
+                    queryTags: [...context.state.queryTags, tag.name],
+                  });
+                }}
+              >
+                #{tag.name}
+              </button>
+            );
           })}
         </span>
       </div>
       <div className="whitespace-pre-wrap text-base pb-1">
         <Linkify>{data.log.data}</Linkify>
       </div>
-        <style>{`
+      <style>{`
           .timeAgo {}
           .u-color-1 {
             filter: saturate(10.0);
