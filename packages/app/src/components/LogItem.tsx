@@ -41,34 +41,35 @@ const LogItem = (data: any) => {
 
   return (
     <div
-      className="flex flex-col space-x-4 rounded-2xl py-1 px-3"
+      className="flex flex-col space-x-4 rounded-2xl py-2 px-4 "
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
       <div className="flex gap-2 text-sm">
         <Link
           href={`https://mumbai.polygonscan.com/address/${data.log?.author?.owner}`}
         >
-          {
-            <span
-              className="u-color-1"
-              style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
-            >
-              {ensName}
-            </span>
-          }
+          {<span className="font-semibold">{ensName}</span>}
         </Link>
-        {"-"}
-        <TimeAgo
-          className="timeAgo"
-          datetime={data.log.created * 1000}
-        ></TimeAgo>
-        <button
-          onClick={() => {
-            setIsTagging(true);
-          }}
-        >
-          tag
-        </button>
+
+        <span>
+          {data.log.tags.map((tag: any) => {
+            return (
+              <button
+                className="ml-1.5 u-color-2"
+                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+                onClick={() => {
+                  context.setState({
+                    queryAuthors: context.state.queryAuthors,
+                    queryTags: [...context.state.queryTags, tag.name],
+                  });
+                }}
+              >
+                #{tag.name}
+              </button>
+            );
+          })}
+        </span>
+
         {isTagging && (
           <div>
             <select
@@ -99,37 +100,33 @@ const LogItem = (data: any) => {
           </div>
         )}
 
-        <span className="text-gray-400 mr-1 u-color-2">
-          {data.log.tags.map((tag: any) => {
-            return (
-              <button
-                className="ml-1 u-color-2"
-                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
-                onClick={() => {
-                  context.setState({
-                    queryAuthors: context.state.queryAuthors,
-                    queryTags: [...context.state.queryTags, tag.name],
-                  });
-                }}
-              >
-                #{tag.name}
-              </button>
-            );
-          })}
-        </span>
+        <button
+          className="mr-auto u-color-2"
+          style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+          onClick={() => {
+            setIsTagging(true);
+          }}
+        >
+          +
+        </button>
+
+        <TimeAgo
+          className="text-gray-500 text-xs opacity-50"
+          datetime={data.log.created * 1000}
+        ></TimeAgo>
       </div>
-      <div className="whitespace-pre-wrap text-base pb-1">
+
+      <div className="whitespace-pre-wrap text-base m-2">
         <Linkify>{data.log.data}</Linkify>
       </div>
+
       <style>{`
-          .timeAgo {}
-          .u-color-1 {
-            filter: saturate(10.0);
-            filter: brightness(1);            
-          }
           .u-color-2 {
-            filter: brightness(0.5); 
-            filter: saturate(0.6);            
+            filter: opacity(0.75);            
+          }
+          .u-color-2:hover {
+            filter: opacity(1);
+            cursor: pointer;
           }
       `}</style>
     </div>
