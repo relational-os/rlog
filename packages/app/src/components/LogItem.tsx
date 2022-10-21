@@ -38,16 +38,21 @@ const LogItem = (data: any) => {
   const [query] = useTagsQuery({});
 
   return (
+    
     <div
       className="flex flex-col space-x-4 rounded-2xl py-1 px-3"
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
-      <div className="flex gap-2">
+
+      <div className="flex gap-2 text-sm">
         <Link
           href={`https://mumbai.polygonscan.com/address/${data.log?.author?.owner}`}
-        >{`${ensName}`}</Link>
+        >
+          {<span className="u-color-1"
+                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+          >{ensName}</span>}</Link>
         {"-"}
-        <TimeAgo datetime={data.log.created * 1000}></TimeAgo>
+        <TimeAgo className="timeAgo" datetime={data.log.created * 1000}></TimeAgo>
         <button
           onClick={() => {
             setIsTagging(true);
@@ -85,15 +90,28 @@ const LogItem = (data: any) => {
           </div>
         )}
 
-        <span className="text-gray-400 mr-1">
+        <span className="text-gray-400 mr-1 u-color-2">
           {data.log.tags.map((tag: any) => {
-            return `#${tag.name}`;
+            return <span className="ml-1 u-color-2"
+            style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+            >#{tag.name}</span>
           })}
         </span>
       </div>
-      <div className="whitespace-pre-wrap">
+      <div className="whitespace-pre-wrap text-base pb-1">
         <Linkify>{data.log.data}</Linkify>
       </div>
+        <style>{`
+          .timeAgo {}
+          .u-color-1 {
+            filter: saturate(10.0);
+            filter: brightness(1);            
+          }
+          .u-color-2 {
+            filter: brightness(0.5); 
+            filter: saturate(0.6);            
+          }
+      `}</style>
     </div>
   );
 };
