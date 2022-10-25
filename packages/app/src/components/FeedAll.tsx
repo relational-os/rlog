@@ -1,4 +1,3 @@
-import React from "react";
 import { gql } from "urql";
 import { useLatestLogsQuery } from "../../codegen/subgraph";
 import LogItem from "./LogItem";
