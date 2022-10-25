@@ -234,10 +234,18 @@ const HomePage: NextPage = () => {
 
         <span className="my-2">
           {context.state.queryTags.map((tag) => {
-            return <span className="px-2">{tag}</span>;
+            return (
+              <span key={tag} className="px-2">
+                {tag}
+              </span>
+            );
           })}
           {context.state.queryAuthors.map((author) => {
-            return <span className="px-2">{author}</span>;
+            return (
+              <span key={author} className="px-2">
+                {author}
+              </span>
+            );
           })}
         </span>
 

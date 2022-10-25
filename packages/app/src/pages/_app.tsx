@@ -17,10 +17,16 @@ export const graphClient = createGraphClient({
   url: "https://api.thegraph.com/subgraphs/name/relational-os/rlog",
 });
 
+// const [employees, setEmployees] = useState<{salary: number; name: string}[]>(
+//   [],
+// );
+
 type OurLogContextState = { queryAuthors: string[]; queryTags: string[] };
 const ourLogContextDefault = {
-  state: { queryAuthors: [], queryTags: [] },
-  setState: (state: OurLogContextState) => {},
+  state: { queryAuthors: Array<string>(), queryTags: Array<string>() },
+  setState: (state: OurLogContextState) => {
+    return;
+  },
 };
 
 export const OurLogContext = createContext(ourLogContextDefault);

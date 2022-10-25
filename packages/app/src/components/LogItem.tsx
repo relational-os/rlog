@@ -55,6 +55,7 @@ const LogItem = (data: any) => {
           {data.log.tags.map((tag: any) => {
             return (
               <button
+                key={data.log.id}
                 className="ml-1.5 u-color-2"
                 style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
                 onClick={() => {
