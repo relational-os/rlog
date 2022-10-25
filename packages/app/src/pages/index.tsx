@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useMemo, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -8,7 +8,6 @@ import {
 import { useTagsQuery } from "../../codegen/subgraph";
 
 import contracts from "../../../../packages/contracts/deploys/polygon-mumbai/all.json";
-import logABI from "../../../../packages/contracts/out/Log.sol/Log.abi.json";
 import managerAbi from "../../../../packages/contracts/out/Manager.sol/Manager.abi.json";
 import FeedAuthors from "../components/FeedAuthors";
 import FeedTags from "../components/FeedTags";
@@ -18,7 +17,6 @@ import FeedAll from "../components/FeedAll";
 import { MentionsInput, Mention } from "react-mentions";
 
 import { gql } from "urql";
-import { AppContext } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AppContext";
 import { OurLogContext } from "../pages/_app";
 
 gql`
@@ -70,7 +68,11 @@ const HomePage: NextPage = () => {
     "queryAuthors" | "queryTags" | "queryAuthorsAndTags" | "queryAll"
   >("queryAll");
 
-  const calculatePageState = () => {
+  useEffect(() => {
+    setLogEntry("");
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (
       context.state.queryAuthors.length > 0 &&
       context.state.queryTags.length > 0
@@ -89,14 +91,6 @@ const HomePage: NextPage = () => {
     } else {
       setPageState("queryAll");
     }
-  };
-
-  useEffect(() => {
-    setLogEntry("");
-  }, [isSuccess]);
-
-  useEffect(() => {
-    calculatePageState();
   }, [context.state.queryAuthors, context.state.queryTags]);
 
   useEffect(() => {
@@ -159,7 +153,6 @@ const HomePage: NextPage = () => {
                   });
 
                   setSearchQueryAuthor("");
-                  calculatePageState();
                 }
               }}
             ></input>
@@ -175,7 +168,6 @@ const HomePage: NextPage = () => {
                     queryTags: [...context.state.queryTags, searchQueryTag],
                   });
                   setSearchQueryTag("");
-                  calculatePageState();
                 }
               }}
             ></input>
@@ -188,12 +180,7 @@ const HomePage: NextPage = () => {
               className="border-b-2 border-gray-200 my-2 h-24"
               value={logEntry}
               singleLine={false}
-              // @ts-ignore
-              onChange={(event, newValue, newPlainTextValue, mentions) => {
-                // console.log({ event });
-                // console.log({ newValue });
-                // console.log({ newPlainTextValue });
-                // console.log({ mentions });
+              onChange={(event, newValue, newPlainTextValue) => {
                 setLogEntry(event.target.value);
                 setPlaintextLogEntry(newPlainTextValue);
               }}
