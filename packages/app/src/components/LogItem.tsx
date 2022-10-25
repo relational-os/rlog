@@ -45,11 +45,20 @@ const LogItem = (data: any) => {
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
       <div className="flex gap-2 text-sm">
-        <Link
-          href={`https://mumbai.polygonscan.com/address/${data.log?.author?.owner}`}
+        <button
+          className="font-semibold"
+          onClick={() => {
+            context.setState({
+              queryAuthors: [
+                ...context.state.queryAuthors,
+                data.log.author.owner,
+              ],
+              queryTags: context.state.queryTags,
+            });
+          }}
         >
-          {<span className="font-semibold">{ensName}</span>}
-        </Link>
+          {ensName}
+        </button>
 
         <span>
           {data.log.tags.map((tag: any) => {
