@@ -7,7 +7,7 @@ import Linkify from "react-linkify";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import contracts from "../../../contracts/deploys/polygon-mumbai/all.json";
 import logABI from "../../../contracts/out/Log.sol/Log.abi.json";
-import { Context, gql } from "urql";
+import { gql } from "urql";
 import { useTagsQuery } from "../../codegen/subgraph";
 
 gql`

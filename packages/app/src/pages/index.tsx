@@ -32,7 +32,7 @@ const HomePage: NextPage = () => {
   const context = useContext(OurLogContext);
   const [logEntry, setLogEntry] = useState("");
   const [plaintextLogEntry, setPlaintextLogEntry] = useState("");
-  const [newTags, setNewTags] = useState<any>([]);
+  const [newTags, setNewTags] = useState<string[] | undefined>([]);
   const [existingTagReferences, setExistingTagReferences] = useState<number[]>(
     []
   );
@@ -60,7 +60,10 @@ const HomePage: NextPage = () => {
   const [searchQueryAuthor, setSearchQueryAuthor] = useState("");
   const [searchQueryTag, setSearchQueryTag] = useState("");
   const [tagsResponse] = useTagsQuery({});
-  const [formattedTags, setFormattedTags] = useState<any>();
+  type FormattedTagType = { id: string; display: string };
+  const [formattedTags, setFormattedTags] = useState<
+    FormattedTagType[] | undefined
+  >([]);
   // const MATCH_RE = /((@)\[([#|@]\w+)\]\((\d+)\))/gim;
   const MATCH_RE = /(@)\[([#|@]\w+)\]\((\d+)\)|(#\w+)/gim;
 
@@ -187,7 +190,7 @@ const HomePage: NextPage = () => {
               onBlur={parseMentions}
             >
               <Mention trigger="@" data={[{ id: 1, display: "@bob" }]} />
-              <Mention trigger="#" data={formattedTags} />
+              <Mention trigger="#" data={formattedTags || []} />
             </MentionsInput>
 
             <div className="">
