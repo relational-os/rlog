@@ -24,13 +24,13 @@ contract DeployRlog is Script {
         console.log(msg.sender);
 
         // Deploy log contract
-        // logContract = new Log();
+        logContract = new Log();
 
         // Deploy tag contract
         // tagContract = new Tag();
 
         managerContract = new Manager(
-            address(0x306459A7599dabd032ECb31c0d6F9fE277830297),
+            address(logContract),
             address(0xdaD0D757C142bE18BEc9c1f57A606AAE737d9E35)
         );
 

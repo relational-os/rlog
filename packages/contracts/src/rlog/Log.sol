@@ -32,7 +32,7 @@ contract Log is Relational {
 
         // set the new data for the tag
         log.id = id;
-        log.author = msg.sender;
+        log.author = tx.origin;
         log.createdTimestamp = block.timestamp;
         log.modifiedTimestamp = block.timestamp;
         log.data = data;
