@@ -71,28 +71,23 @@ const HomePage: NextPage = () => {
   >("queryAll");
 
   const calculatePageState = () => {
-    console.log("context: " + context.state.queryAuthors.length);
     if (
       context.state.queryAuthors.length > 0 &&
       context.state.queryTags.length > 0
     ) {
       setPageState("queryAuthorsAndTags");
-      console.log("page state: queryAuthorsAndTags");
     } else if (
       context.state.queryAuthors.length > 0 &&
       context.state.queryTags.length == 0
     ) {
       setPageState("queryAuthors");
-      console.log("page state: queryAuthors");
     } else if (
       context.state.queryAuthors.length == 0 &&
       context.state.queryTags.length > 0
     ) {
       setPageState("queryTags");
-      console.log("page state: queryTags");
     } else {
       setPageState("queryAll");
-      console.log("page state: queryAll");
     }
   };
 
