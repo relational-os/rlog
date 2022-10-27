@@ -141,7 +141,7 @@ const HomePage: NextPage = () => {
         <div className="flex flex-col">
           <div className="flex flex-row my-3">
             <input
-              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1"
+              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1 pl-3"
               onChange={(e) => setSearchQueryAuthor(e.target.value)}
               value={searchQueryAuthor}
               placeholder="@"
@@ -160,7 +160,7 @@ const HomePage: NextPage = () => {
               }}
             ></input>
             <input
-              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1"
+              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1 pl-3"
               onChange={(e) => setSearchQueryTag(e.target.value)}
               value={searchQueryTag}
               placeholder="#"
@@ -226,13 +226,15 @@ const HomePage: NextPage = () => {
           {context.state.queryTags.map((tag) => {
             return (
               <span key={tag} className="mx-1 px-2 py-2 bg-gray-100 rounded-md text-gray-700 font-medium">
+                <span className="opacity-50 mr-0.5">#</span>
                 {tag}
               </span>
             );
           })}
           {context.state.queryAuthors.map((author) => {
             return (
-              <span key={author} className="px-2">
+              <span key={author} className="mx-1 px-2 py-2  bg-gray-100 rounded-md text-gray-700 font-medium">
+                <span className="opacity-50 mr-1">@</span>
                 {author}
               </span>
             );
@@ -241,13 +243,13 @@ const HomePage: NextPage = () => {
 
         {(context.state.queryTags.length > 0 ||
           context.state.queryAuthors.length > 0) && (
-          <button
+            <button
             className="mt-2 mx-1 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
             onClick={() => {
               context.setState({ queryAuthors: [], queryTags: [] });
             }}
           >
-            clear
+            Clear
           </button>
         )}
 

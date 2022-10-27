@@ -74,7 +74,8 @@ const LogItem = (data: any) => {
                   });
                 }}
               >
-                #{tag.name}
+              <span className="opacity-70 mr-0.5">#</span>
+              {tag.name}
               </button>
             );
           })}
@@ -104,7 +105,7 @@ const LogItem = (data: any) => {
                   setIsTagging(false);
                 }}
               >
-                apply
+                Apply
               </button>
             )}
           </div>
@@ -121,7 +122,7 @@ const LogItem = (data: any) => {
         </button>
 
         <TimeAgo
-          className="text-gray-500 text-xs opacity-50"
+          className="text-gray-500 text-xs opacity-80"
           datetime={data.log.created * 1000}
         ></TimeAgo>
       </div>
