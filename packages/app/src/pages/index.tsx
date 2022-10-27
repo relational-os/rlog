@@ -141,7 +141,7 @@ const HomePage: NextPage = () => {
         <div className="flex flex-col">
           <div className="flex flex-row my-3">
             <input
-              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1 pl-3"
+              className="flex flex-grow rounded-xl bg-white p-1 pl-3 mr-1"
               onChange={(e) => setSearchQueryAuthor(e.target.value)}
               value={searchQueryAuthor}
               placeholder="@"
@@ -154,13 +154,12 @@ const HomePage: NextPage = () => {
                     ],
                     queryTags: context.state.queryTags,
                   });
-
                   setSearchQueryAuthor("");
                 }
               }}
             ></input>
             <input
-              className="flex flex-grow border-solid border-2 border-gray-100 rounded-xl bg-white p-1 pl-3"
+              className="flex flex-grow rounded-xl bg-white p-1 pl-3 ml-1"
               onChange={(e) => setSearchQueryTag(e.target.value)}
               value={searchQueryTag}
               placeholder="#"
@@ -176,11 +175,11 @@ const HomePage: NextPage = () => {
             ></input>
           </div>
 
-          <div className="border-solid border-2 border-gray-100 p-4 my-4 rounded-xl bg-white">
+          <div className="border-solid p-4 my-4 rounded-xl bg-white">
             <span>eth.ens</span>
 
             <MentionsInput
-              className="border-b-2 border-gray-200 my-2 h-24"
+              className="border-b-2 border-gray-50 my-2 h-24"
               value={logEntry}
               singleLine={false}
               onChange={(event, newValue, newPlainTextValue) => {
@@ -193,7 +192,7 @@ const HomePage: NextPage = () => {
               <Mention trigger="#" data={formattedTags || []} />
             </MentionsInput>
 
-            <div className="">
+            <div className="flex">
               <button
                 className="mt-2 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
                 // disabled={!write}
@@ -207,44 +206,25 @@ const HomePage: NextPage = () => {
                 {isLoading ? "Posting..." : "Post"}
               </button>
               {isSuccess && (
-                <div>
-                  Successfully created your log!
-                  <div>
-                    <a href={`https://mumbai.polygonscan.com/tx/${data?.hash}`}>
-                      View on Polygonscan
+                <div className="flex-auto mt-2 px-3 py-1 text-gray-500">
+                  <span>
+                    Successfully created your log! 
+                  </span>
+                    <a className="ml-1 text-blue-400" href={`https://mumbai.polygonscan.com/tx/${data?.hash}`}>
+                    View on Polygonscan
                     </a>
-                  </div>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        <h1 className="text-xl font-bold pb-4 ml-5">Log</h1>
-
-        <span className="my-2">
-          {context.state.queryTags.map((tag) => {
-            return (
-              <span key={tag} className="mx-1 px-2 py-2 bg-gray-100 rounded-md text-gray-700 font-medium">
-                <span className="opacity-50 mr-0.5">#</span>
-                {tag}
-              </span>
-            );
-          })}
-          {context.state.queryAuthors.map((author) => {
-            return (
-              <span key={author} className="mx-1 px-2 py-2  bg-gray-100 rounded-md text-gray-700 font-medium">
-                <span className="opacity-50 mr-1">@</span>
-                {author}
-              </span>
-            );
-          })}
-        </span>
+        <h1 className="text-xl font-extrabold pb-4 ml-5">Log</h1>
 
         {(context.state.queryTags.length > 0 ||
           context.state.queryAuthors.length > 0) && (
             <button
-            className="mt-2 mx-1 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
+            className="ml-5 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
             onClick={() => {
               context.setState({ queryAuthors: [], queryTags: [] });
             }}
@@ -252,6 +232,25 @@ const HomePage: NextPage = () => {
             Clear
           </button>
         )}
+
+        <span className="my-2">
+          {context.state.queryTags.map((tag) => {
+            return (
+              <span key={tag} className="ml-2 px-2 py-2 bg-gray-100 rounded-md text-gray-700 font-medium">
+                <span className="opacity-50 mr-0.5">#</span>
+                {tag}
+              </span>
+            );
+          })}
+          {context.state.queryAuthors.map((author) => {
+            return (
+              <span key={author} className="ml-2 px-2 py-2  bg-gray-100 rounded-md text-gray-700 font-medium">
+                <span className="opacity-50 mr-1">@</span>
+                {author}
+              </span>
+            );
+          })}
+        </span>
 
         {pageState == "queryAuthors" && (
           <FeedAuthors
