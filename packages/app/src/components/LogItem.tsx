@@ -42,7 +42,7 @@ const LogItem = (data: any) => {
   return (
     <div
       className="flex flex-col rounded-2xl py-2 px-5"
-      style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
+      style={{ backgroundColor: `#${data.log.author.owner.slice(9, 15)}22` }}
     >
       <div className="flex gap-2 text-sm">
         <button
@@ -66,7 +66,7 @@ const LogItem = (data: any) => {
               <button
                 key={data.log.id}
                 className="ml-1.5 u-color-2"
-                style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+                style={{ color: `#${data.log.author.owner.slice(9, 15)}` }}
                 onClick={() => {
                   context.setState({
                     queryAuthors: context.state.queryAuthors,
@@ -100,9 +100,10 @@ const LogItem = (data: any) => {
             {tagId != -1 && (
               <button
                 className="ml-2 px-2.5 py-0.5 rounded-md font-medium text-sm text-white/90 u-color-2"
-                style={{background: `#${data.log.author.owner.slice(2, 8)}95`}}
+                style={{background: `#${data.log.author.owner.slice(9, 15)}95`}}
                 onClick={() => {
                   console.log("clicked", write);
+                  console.log("test",data.log.author.owner.slice(9, 15));
                   write?.();
                   setIsTagging(false);
                 }}
@@ -115,7 +116,7 @@ const LogItem = (data: any) => {
 
         <button
           className="mr-auto u-color-2"
-          style={{ color: `#${data.log.author.owner.slice(2, 8)}` }}
+          style={{ color: `#${data.log.author.owner.slice(9, 15)}` }}
           onClick={() => {
             setIsTagging(true);
           }}
@@ -129,7 +130,7 @@ const LogItem = (data: any) => {
         ></TimeAgo>
       </div>
 
-      <div className="whitespace-pre-wrap text-base my-2 px-1">
+      <div className="whitespace-pre-wrap text-base my-2">
         <Linkify>{data.log.data}</Linkify>
       </div>
 
