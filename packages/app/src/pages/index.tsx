@@ -195,7 +195,7 @@ const HomePage: NextPage = () => {
 
             <div className="">
               <button
-                className="mt-2 px-3 py-1 bg-blue-100 rounded-md text-blue-500"
+                className="mt-2 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
                 // disabled={!write}
                 onClick={() => {
                   parseMentions();
@@ -220,12 +220,12 @@ const HomePage: NextPage = () => {
           </div>
         </div>
 
-        <h1 className="text-xl font-bold pb-4">Log</h1>
+        <h1 className="text-xl font-bold pb-4 ml-5">Log</h1>
 
         <span className="my-2">
           {context.state.queryTags.map((tag) => {
             return (
-              <span key={tag} className="px-2">
+              <span key={tag} className="mx-1 px-2 py-2 bg-gray-100 rounded-md text-gray-700 font-medium">
                 {tag}
               </span>
             );
@@ -242,7 +242,7 @@ const HomePage: NextPage = () => {
         {(context.state.queryTags.length > 0 ||
           context.state.queryAuthors.length > 0) && (
           <button
-            className="mt-2 px-3 py-1 bg-gray-200 rounded-md text-gray-700 "
+            className="mt-2 mx-1 px-3 py-1 bg-gray-700 rounded-md text-gray-100 font-medium hover:bg-gray-600 hover:text-white"
             onClick={() => {
               context.setState({ queryAuthors: [], queryTags: [] });
             }}

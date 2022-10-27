@@ -41,7 +41,7 @@ const LogItem = (data: any) => {
 
   return (
     <div
-      className="flex flex-col space-x-4 rounded-2xl py-2 px-4 "
+      className="flex flex-col space-x-4 rounded-2xl py-2 px-4"
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
       <div className="flex gap-2 text-sm">
@@ -117,7 +117,7 @@ const LogItem = (data: any) => {
             setIsTagging(true);
           }}
         >
-          +
+          ⊕
         </button>
 
         <TimeAgo
@@ -126,7 +126,7 @@ const LogItem = (data: any) => {
         ></TimeAgo>
       </div>
 
-      <div className="whitespace-pre-wrap text-base m-2">
+      <div className="whitespace-pre-wrap text-base my-2 px-1">
         <Linkify>{data.log.data}</Linkify>
       </div>
 
