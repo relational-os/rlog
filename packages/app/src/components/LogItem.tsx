@@ -100,7 +100,7 @@ const LogItem = (data: any) => {
             {tagId != -1 && (
               <button
                 className="ml-2 px-2.5 py-0.5 rounded-md font-medium text-sm text-white/90 u-color-2"
-                style={{background: `#${data.log.author.owner.slice(9, 15)}95`}}
+                style={{background: `#${data.log.author.owner.slice(9, 15)}`}}
                 onClick={() => {
                   console.log("clicked", write);
                   console.log("test",data.log.author.owner.slice(9, 15));
@@ -136,7 +136,7 @@ const LogItem = (data: any) => {
 
       <style>{`
           .u-color-2 {
-            filter: opacity(0.75);            
+            filter: opacity(0.85);            
           }
           .u-color-2:hover {
             filter: opacity(1);
