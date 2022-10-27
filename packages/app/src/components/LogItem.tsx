@@ -41,7 +41,7 @@ const LogItem = (data: any) => {
 
   return (
     <div
-      className="flex flex-col space-x-4 rounded-2xl py-2 px-4"
+      className="flex flex-col rounded-2xl py-2 px-5"
       style={{ backgroundColor: `#${data.log.author.owner.slice(2, 8)}22` }}
     >
       <div className="flex gap-2 text-sm">

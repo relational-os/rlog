@@ -25,7 +25,7 @@ const FeedAll = () => {
   const [query] = useLatestLogsQuery({});
 
   return (
-    <div className="flex flex-col space-y-2 p-2">
+    <div className="flex flex-col space-y-1.5">
       {query &&
         query.data &&
         query.data.logs.map((log, id) => <LogItem log={log} key={id} />)}

@@ -137,9 +137,9 @@ const HomePage: NextPage = () => {
 
   return (
     <>
-      <div className="container max-w-2xl mx-auto">
+      <div className="container max-w-2xl my-3 mx-auto">
         <div className="flex flex-col">
-          <div className="flex flex-row my-3">
+          <div className="flex flex-row">
             <input
               className="flex flex-grow rounded-xl bg-white p-1 pl-3 mr-1"
               onChange={(e) => setSearchQueryAuthor(e.target.value)}
