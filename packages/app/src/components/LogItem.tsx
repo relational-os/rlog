@@ -99,6 +99,8 @@ const LogItem = (data: any) => {
             </select>
             {tagId != -1 && (
               <button
+                className="ml-2 px-2.5 py-0.5 rounded-md font-medium text-sm text-white/90 u-color-2"
+                style={{background: `#${data.log.author.owner.slice(2, 8)}95`}}
                 onClick={() => {
                   console.log("clicked", write);
                   write?.();
